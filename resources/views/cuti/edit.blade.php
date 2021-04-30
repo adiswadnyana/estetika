@@ -48,7 +48,7 @@
         });
         
 		$('.datepicker').daterangepicker({
-		  singleDatePicker: false,
+		  singleDatePicker: true,
 		  showDropdowns: true,
           autoUpdateInput: true,
           drops: 'up'

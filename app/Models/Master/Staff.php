@@ -37,13 +37,5 @@ class Staff extends Model
     public function users() {
         return $this->belongsTo(Users::class);
     }
-
-    public function schedules() {
-        return $this->hasMany(\App\Models\Schedule::class);
-    }
-
-    public function salary() {
-        return $this->hasMany(\App\Models\Salary::class);
-    }
     
 }

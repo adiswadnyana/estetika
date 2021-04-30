@@ -1,14 +1,11 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="login-box">
     <div class="row justify-content-center">
-        <div class="col-md-12 text-center mb-4 mt-4">
-            <img src="{{asset('img/logo-login.png')}}" width="20%">
-        </div>
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-            <a class="h1"><b>EKSIS</b></a>
-        </div>
+            <div class="card">
+                <div class="card-header">
+                <img src="{{ asset('img/branding.png') }}"  width="70%" class="img-responsive mx-auto d-block" alt="" />
+                </div>
                 @if (session('message'))
                 <div class="col-md-12 mt-3">
                     <div class="alert alert-danger alert-dismissable mb-0"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -20,7 +17,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                            <label for="username" class="col-md-3 col-form-label text-md-right">{{ __('Username') }}</label>
                             <div class="col-md-7">
                                 <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username', Session::get('username')) }}" placeholder="Masukan username.." autofocus>
                                 @error('username')
@@ -32,7 +29,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-3 col-form-label text-md-right">{{ __('Password') }}</label>
                             <div class="col-md-7">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Masukan password.." autocomplete="current-password">
                                 @error('password')
@@ -55,17 +52,30 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-3">
+                        <div class="form-group row mb-0">
                             <div class="col-md-7 offset-md-3">
                                 <button type="submit" class="btn btn-primary btn-block">
                                     <i class="fa fa-unlock"></i> {{ __('Login') }}
                                 </button>
+                                {{-- <div class="col-md-12 text-center mt-3">
+                                    Belum punya akun ? <a href="#">Klik Daftar</a>
+                                </div> --}}
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </form>
                 </div>
                 
                 <div id="loading"></div>
+
+                <div class="card-footer text-center text-secondary">
+                    Powered by <a href="#" class="font-weight-bold text-secondary" target="_blank">CV ESTETIKA KARYA</a>.
+                </div>
             </div>
         </div>
     </div>

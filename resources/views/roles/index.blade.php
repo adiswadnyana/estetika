@@ -78,6 +78,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
+    @include('alert.mk-notif')
     <script>
         function hapus(id){
             swal({

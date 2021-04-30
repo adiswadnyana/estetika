@@ -38,6 +38,18 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-md-4 col-xs-4 col-form-label">Bulan Ke <span class="text-danger">*</span></label> 
+            <div class="col-12 col-md-5 col-lg-5">
+                <input type="number" class="form-control @error('bulan_ke') is-invalid @enderror" name="bulan_ke" value="{{ old('bulan_ke') }}" placeholder="0" min="1" autocomplete="off" />
+                @error('bulan_ke')
+                    <span class="text-danger" role="alert">
+                       {{ $errors->first('bulan_ke') }}
+                    </span>
+                @enderror
+            </div> 
+        </div>
+
+        <div class="form-group row">
             <label class="col-md-4 col-xs-4 col-form-label">TANGGAL ABSEN <span class="text-danger">*</span></label> 
             <div class="col-12 col-md-5 col-lg-5">
                 <div class="input-group">

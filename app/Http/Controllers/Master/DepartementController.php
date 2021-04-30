@@ -22,7 +22,7 @@ class DepartementController extends Controller
 
     public function create()
     {
-        return view('master.departement.create', ['title'=>'Tambah Departement']);
+        return view('master.departement.create', ['title'=>'Tambah Lokasi Proyek']);
     }
 
     public function store(Request $request)
@@ -39,7 +39,7 @@ class DepartementController extends Controller
 
         $message = [
             'alert-type'=>'success',
-            'message'=> 'Data departement created successfully'
+            'message'=> 'Data Project created successfully'
         ];  
         return redirect()->route('master.departement.index')->with($message);
     }
@@ -65,7 +65,7 @@ class DepartementController extends Controller
 
         $message = [
             'alert-type'=>'success',
-            'message'=> 'Data departement updated successfully'
+            'message'=> 'Data Project updated successfully'
         ];  
         return redirect()->route('master.departement.index')->with($message);
     }
@@ -84,7 +84,7 @@ class DepartementController extends Controller
             $message = [
                 'alert-type' => 'success',
                 'count' => $count,
-                'message' => 'Data departement deleted successfully.'
+                'message' => 'Data Project deleted successfully.'
             ];
             return response()->json($message);
         }

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset ('css/sweetalert.css') }}">
 @endsection
@@ -17,6 +18,9 @@
                             </div>
                             <input type="search" placeholder="Search" aria-label="Search..." class="form-control input-flat border-0" id="search"> 
                         </div> 
+                        {{-- <a href="{{ route('users.create') }}" class="btn btn-default app-shadow d-none d-md-inline-block ml-auto">
+                            <i class="fas fa-user-plus fa-fw"></i> Tambah
+                        </a> --}}
                     </div>
                 </form>
             </div>
@@ -44,23 +48,23 @@
                                     @foreach ($users as $item)
                                         <tr id="hide{{ $item->id }}">
                                             <td class="text-left">
+                                                <form onsubmit="return confirm('Password akan direset berdasarkan usernamenya ( {{ $item->username ?? '' }} ), tekan ok untuk melanjutkan')" action="{{ route('users.update', $item->id) }}" method="POST" style="display: inline-block">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <input type="hidden" name="reset" value="true">
+                                                    <button type="submit" class="btn btn-warning btn-sm btn-reset-password">
+                                                        <i class="fa fa-refresh"></i> <span class="pl-1 hidden-xs hidden-sm">Reset Password</span>
+                                                    </button>
+                                                </form>
                                                 @if (Auth::user()->hasRole('admin'))
-                                                    <form onsubmit="return confirm('Password akan direset berdasarkan usernamenya ( {{ $item->username ?? '' }} ), tekan ok untuk melanjutkan')" action="{{ route('users.update', $item->id) }}" method="POST" style="display: inline-block">
-                                                        @csrf
-                                                        @method('patch')
-                                                        <input type="hidden" name="reset" value="true">
-                                                        <button type="submit" class="btn btn-warning btn-sm btn-reset-password">
-                                                            <i class="fa fa-refresh"></i> <span class="pl-1 hidden-xs hidden-sm">Reset Password</span>
-                                                        </button>
-                                                    </form>
-                                                    @if ($item->role->name !== 'admin')
+                                                    @if ($item->role_id == 2)
                                                         <a href="javascript:void(0)" onClick="hapus({{$item->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus"><i class="fa fa-times"></i></a>
                                                     @endif
                                                 @endif
                                             </td>
                                             <td>{{ strtoupper($item->staff->name ?? '-') }}</td> 
                                             <td>{{ $item->username ?? ''}}</td> 
-                                            <td><span class="badge {{ $item->role->name == 'admin' ? 'badge-success':'badge-secondary' }}  text-lowercase">{{ $item->role->name }}</span></td>
+                                            <td><span class="badge badge-secondary text-lowercase">{{ $item->role->name }}</span></td>
                                         </tr>
                                     @endforeach
                                 <tbody>
@@ -71,6 +75,11 @@
             </div>
         </div>
     </div>
+
+    {{-- <a href="{{ route('users.create') }}" class="btn btn-lg rounded-circle btn-primary btn-fly d-block d-md-none app-shadow">
+        <span><i class="fas fa-user-plus fa-sm align-middle"></i></span>
+    </a> --}}
+
 @endsection
 
 @section('scripts')
@@ -79,6 +88,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
+    @include('alert.mk-notif')
     <script>
         function hapus(id){
             swal({

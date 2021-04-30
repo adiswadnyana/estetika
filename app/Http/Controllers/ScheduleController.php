@@ -29,10 +29,10 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {   
         $request->validate([
-            'staff_id'=>'required|unique:tb_schedule',
+            'staff_id'=>'required',
             'tgl_masuk'=>'required|date',
             'ket_schedule'=>'required',
-            // 'status'=>'required',
+            'status'=>'required',
         ]);
 
         Schedule::create($request->all());
@@ -61,7 +61,7 @@ class ScheduleController extends Controller
             'staff_id'=>'required',
             'tgl_masuk'=>'required|date',
             'ket_schedule'=>'required',
-            // 'status'=>'required',
+            'status'=>'required',
         ]);
 
         $schedule->update($request->all());

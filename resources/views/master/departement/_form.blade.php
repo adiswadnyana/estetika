@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="card-header with-border pl-0 pb-1">
-        <span class="col-form-label text-bold">Departement</span>
+        <span class="col-form-label text-bold">Lokasi Proyek</span>
     </div>
     <br> 
     <div class="form-group row">

@@ -30,7 +30,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header bg-light">
-                                Data Departement
+                                Data Lokasi Proyek
                                 <span id="count" class="badge badge-danger float-right float-xl-right mt-1">{{ $count }}</span>
                             </div>
                             <table id="datatable" class="table table-hover table-striped">
@@ -44,7 +44,7 @@
                                     @foreach ($departement as $item)
                                         <tr id="hide{{ $item->id }}">
                                             <td class="text-center">
-                                                <a href="#" class="text-secondary nav-link p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a href="#" class="text-secondary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
@@ -81,6 +81,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
+    @include('alert.mk-notif')
     <script>
         function hapus(id){
             swal({

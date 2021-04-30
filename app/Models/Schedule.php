@@ -11,13 +11,13 @@ class Schedule extends Model
     protected $fillable = ['staff_id', 'position_id', 'departement_id', 'tgl_masuk', 'ket_schedule', 'status'];
     protected $dates = ['deleted_at'];
 
+    public function getTglmasukAttribute($name)
+    {
+        return date('d-m-Y', strtotime($name));
+    }
+
     public function staff()
     {
         return $this->belongsTo(Staff::class);
-    }
-
-    public function absensi()
-    {
-        return $this->hasMany(Absensi::class);
     }
 }

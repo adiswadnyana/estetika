@@ -14,21 +14,12 @@
     <div class="form-group row">
         <label class="col-md-4 col-xs-4 col-form-label justify-flex-end">Staff <span class="text-danger">*</span></label> 
         <div class="col-12 col-md-5 col-lg-5">
-            @if (Auth::user()->hasRole('admin'))
-                <select name="staff_id" class="form-control select2 @error('staff_id') is-invalid @enderror">
-                    <option value=""></option>
-                    @foreach ($staff as $item)
-                        <option value="{{ $item->id }}" {{ $item->id == old('staff_id', $cuti->staff_id ?? '') ? 'selected' : '' }}>{{ $item->name }}</option>
-                    @endforeach
-                </select>
-            @else
-                <select name="staff_id" class="form-control select2 @error('staff_id') is-invalid @enderror">
-                    @foreach ($staff->where('id', Auth::user()->staff->id) as $item)
-                        <option value="{{ $item->id }}" {{ $item->id == old('staff_id', $cuti->staff_id ?? '') ? 'selected' : '' }}>{{ $item->name }}</option>
-                    @endforeach
-                </select>
-            @endif
-           
+            <select name="staff_id" class="form-control select2 @error('staff_id') is-invalid @enderror">
+                <option value=""></option>
+                @foreach ($staff as $item)
+                    <option value="{{ $item->id }}" {{ $item->id == old('staff_id', $cuti->staff_id ?? '') ? 'selected' : '' }}>{{ $item->name }}</option>
+                @endforeach
+            </select>
             @error('staff_id')
                 <span class="text-danger" role="alert">
                     {{ $errors->first('staff_id') }}
@@ -38,25 +29,26 @@
     </div>
 
     <div class="form-group row">
-        <label class="col-md-4 col-xs-4 col-form-label justify-flex-end">Tgl. Cuti <span class="text-danger">*</span></label> 
+        <label class="col-md-4 col-xs-4 col-form-label justify-flex-end">Jumlah Cuti <span class="text-danger">*</span></label> 
         <div class="col-12 col-md-5 col-lg-5">
-            @if (isset($cuti))
-                <input type="text" class="form-control pull-right datepicker" name="estimasi" value="{{ date('m/d/Y', strtotime($cuti->tgl_mulai)) . ' - ' . date('m/d/Y', strtotime($cuti->tgl_selesai)) }}" required autocomplete="off" onkeypress="return false">
-            @else
-                <input type="text" class="form-control pull-right datepicker" name="estimasi" value="{{ old('estimasi') }}" required autocomplete="off" onkeypress="return false">
-            @endif
-            @error('estimasi')
-                <span class="text-danger">{{ $errors->first('estimasi') }}</span>
+            <div class="input-group">
+                <input type="number" name="jumlah_cuti" class="form-control @error('jumlah_cuti') is-invalid @enderror" value="{{ old('jumlah_cuti', $cuti->jumlah_cuti ?? '') }}" placeholder="0" autocomplete="off" min="0">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-white">Hari</span>
+                </div>
+            </div>
+            @error('jumlah_cuti')
+                <span class="text-danger">{{ $errors->first('jumlah_cuti') }}</span>
             @enderror
         </div> 
     </div>
 
     <div class="form-group row">
-        <label class="col-md-4 col-xs-4 col-form-label justify-flex-end">Keterangan <span class="text-danger">*</span></label> 
+        <label class="col-md-4 col-xs-4 col-form-label justify-flex-end">Tgl. Cuti <span class="text-danger">*</span></label> 
         <div class="col-12 col-md-5 col-lg-5">
-            <textarea name="keterangan" class="form-control @error('keterangan') is-invalid @enderror" placeholder="Alasan cuti..">{{ old('keterangan', $cuti->keterangan ?? '') }}</textarea>
-            @error('keterangan')
-                <span class="text-danger">{{ $errors->first('keterangan') }}</span>
+            <input type="date" name="tgl_cuti" class="form-control @error('tgl_cuti') is-invalid @enderror" value="{{ old('tgl_cuti', $cuti->tgl_cuti ?? '') }}" autocomplete="off">
+            @error('tgl_cuti')
+                <span class="text-danger">{{ $errors->first('tgl_cuti') }}</span>
             @enderror
         </div> 
     </div>

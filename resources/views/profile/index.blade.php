@@ -38,6 +38,21 @@
                                             <td>:</td>
                                             <td>{{ (tgl_indo($staff->birth ?? '-')) }}</td>
                                         </tr>
+                                        {{-- <tr>
+                                            <td>Agama</td>
+                                            <td>:</td>
+                                            <td>{{ $staff->religion ?? '-' }}</td>
+                                        </tr> --}}
+                                        {{-- <tr>
+                                            <td>Jenis Kelamin</td>
+                                            <td>:</td>
+                                            <td>{{ $staff->gender ?? '-' }}</td>
+                                        </tr> --}}
+                                        {{-- <tr>
+                                            <td>email</td>
+                                            <td>:</td>
+                                            <td>{{ $staff->email ?? '-' }}</td>
+                                        </tr> --}}
                                         <tr>
                                             <td>No. Telp</td>
                                             <td>:</td>
@@ -59,14 +74,14 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 @if (Auth::user()->staff->id == $staff->id)
-                                    <img class="profile-user-img img-fluid img-circle" src="{{ asset($staff->photo ?? 'img/user.jpg') }}" alt="User profile picture" style="width: 100px; height: 100px;">
+                                    <img class="profile-user-img img-fluid img-circle" src="{{ asset($staff->photo ?? 'img/user.png') }}" alt="User profile picture" style="width: 100px; height: 100px;">
                                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data" style="display: none">
                                         @csrf
                                         @method('patch')
                                         <input type="file" name="picture" accept=".jpg, .png, .jpeg" id="UploadFotoProfil">
                                     </form>
                                 @else
-                                    <img class="profile-user-img img-fluid img-circle" src="{{ ('img/user.jpg') }}" alt="User profile picture" style="width: 100px; height: 100px;">
+                                    <img class="profile-user-img img-fluid img-circle" src="{{ ('img/user.png') }}" alt="User profile picture" style="height:150px; border-radius: 50%; border: 10px solid #FEDE00;">
                                 @endif
                             </div>
                             <h3 class="profile-username text-center  pt-2">{{ ucwords(Auth::user()->staff->name ?? Auth::user()->name) }}</h3>
@@ -77,6 +92,11 @@
                                 <tr data-href="javascript:void(0)" class="bg-info ganti-foto" title="Klik Untuk Mengganti Foto" data-toggle="tooltip" data-placement="bottom">
                                     <td><i class="fas fa-upload mr-2"></i> Ganti Foto</td>
                                 </tr>
+                                {{-- @if ($staff->cv)
+                                    <tr data-href="{{ $staff->getLinkCV() }}" title="Curiculum Vitae Anda" data-toggle="tooltip" data-placement="bottom">
+                                        <td><i class="fas fa-file-pdf-o mr-2 text-danger"></i> Lihat CV</td>
+                                    </tr>
+                                @endif --}}
                                 <tr data-href="{{ route('profile.edit', Auth::user()->staff->id) }}" title="Perbarui profil anda." data-toggle="tooltip" data-placement="bottom">
                                     <td><i class="fa fa-pencil mr-2 text-warning"></i> Edit Profile</td>
                                 </tr>
@@ -103,6 +123,7 @@
 <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
 <script src="{{ asset('js/datatables.js') }}"></script>
+@include('alert.mk-notif')
 <script>
     $(document).ready(function(){
         $('#url-custom tr').click(function(){

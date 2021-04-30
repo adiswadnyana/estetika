@@ -13,9 +13,4 @@ class Position extends Model
     {
         return strtoupper($name);
     }
-
-    public function staff()
-    {
-        return $this->hasMany(Staff::class);
-    }
 }

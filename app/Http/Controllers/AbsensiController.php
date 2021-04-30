@@ -7,9 +7,8 @@ use App\Models\Absensi;
 use App\Models\Master\Staff;
 use App\Models\Master\Keterangan;
 use App\Models\Master\Attendance;
-use App\Models\Master\Departement;
 use App\Models\Salary;
-use App\Models\Schedule;
+use App\Models\Master\Departement;
 use DB;
 use Illuminate\Support\Facades\Input;
 
@@ -20,7 +19,7 @@ class AbsensiController extends Controller
         $absensi = new Absensi;
         $data['absensi']  = $absensi->groupBy( 'periode' )
                                 ->orderBy( 'tanggal_absen')
-                                ->select(DB::raw('count(*) as count, periode, tanggal_absen'))
+                                ->select(DB::raw('count(*) as count, periode, bulan_ke, tanggal_absen'))
                                 ->get();
         $data['count']  =  count($data['absensi']);
         return view('absensi.master.index', $data);
@@ -36,85 +35,67 @@ class AbsensiController extends Controller
         $data['title'] = "Create Master Absen";
         $data['month'] = array("","Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
         return view('absensi.master.create', $data);
+        
     }
 
     public function store(Request $request)
     {
-        // filter berdasarkan departement
-        $f = $request->filter ?? null;
         $request->validate([
             'code'  => 'required',
             'periode'  => 'required',
+            'bulan_ke'  => 'required',
             'tanggal'  => 'required',
         ]);
 
-        $cek_schedule = Schedule::get();
+        $cek_staff = Staff::get();
 
-        if (is_null($cek_schedule)) {
-            $data['schedule'] = true;
+        if (is_null($cek_staff)) {
+            $data['staff'] = true;
             $data['info'] = 'disabled';
         }
         $absen_detail = new Absensi();
-        $data['absen_detail'] = $absen_detail;
         $tanggal_absen = date('Y-m-d', strtotime($request->tanggal));
-        $data['tanggal_absen'] = $tanggal_absen;
-        $cek_absen = $absen_detail->where(['tanggal_absen' => $tanggal_absen])->count();
-        // if ($cek_absen >0 ){
-        //     $message = [
-        //         'alert-type' => 'error',
-        //         'message' => 'Anda sudah absen pada tanggal '.tgl_indo($tanggal_absen).' ini, Absen lagi ditanggal berikutnya.'
-        //     ];
-        //     return redirect()->back()->with($message);
-        // }
+        $cek_double = $absen_detail->where(['tanggal_absen' => $tanggal_absen])->count();
+        if ($cek_double >0 ){
+            $message = [
+                'alert-type' => 'error',
+                'message' => 'Anda sudah absen pada tanggal '.tgl_indo($tanggal_absen).' ini, Absen lagi ditanggal berikutnya.'
+            ];
+            return redirect()->back()->with($message);
+        }
        
         $data['title'] = "Absen Harian";
         $data['request']  = $request;
         $keterangan = new Keterangan();
         $data['attendance'] = Attendance::all();
         $data['status'] = $keterangan->status;
-        $data['departement'] = Departement::all();
-        $data['filter'] = $f;
-        
-        if($f == '' || $f == null) {
-            $data['departementStaff'] = Staff::orderBy('tb_staff.id','asc')
-                                            ->select(DB::raw('*, tb_staff.name as staffName, tb_staff.id as staffId'))
-                                            ->join('tb_departement', 'tb_staff.departement_id','=','tb_departement.id')
-                                            ->get();
-        } else {
-            $data['departementStaff'] = Staff::orderBy('tb_staff.id','asc')
-                                            ->select(DB::raw('*, tb_staff.name as staffName, tb_staff.id as staffId'))
-                                            ->join('tb_departement', 'tb_staff.departement_id','=','tb_departement.id')
-                                            ->where('tb_departement.name', $f)
-                                            ->get();
-        }
-        
-        
+        $data['salary_staff'] = Salary::all();
         return view('absensi.detail.create', $data);
     }
 
     public function storeDetail(Request $request)
     {
-        if($request->staff_id)
+        // dd($request->all());
+        $a      = 0;
+        if($request->salary_id)
         {
-            foreach ($request->staff_id as $key => $value) 
-            {
-                if( ! empty($request->staff_id[$key]))
-                {
+            $absensi  = $request->salary_id;
+            if ($absensi[0] !== null) {
+                foreach ($absensi as $row) {
                     $data = [
                         'code' => $request->code,
                         'periode'=> $request->periode,
+                        'bulan_ke'=> $request->bulan_ke,
                         'tanggal_absen' => date('Y-m-d', strtotime($request->tanggal)),
-                        'staff_id' => $request->staff_id[$key],
-                        'attendance_id'=>$request->attendance[$key],
+                        'salary_id' => $request->salary_id[$a],
+                        'jumlah_lembur' => $request->jam_lembur[$a],
+                        'attendance_id'=>$request->attendance[$a],
+                        'status'=>$request->status[$a],
                     ];
-                    $filter = array(
-                        'staff_id' => $request->staff_id[$key],
-                        'tanggal_absen' => date('Y-m-d', strtotime($request->tanggal)),
-                    );
-                    if (Absensi::where($filter)->count() > 0) {
-                        Absensi::where($filter)->update(['attendance_id' => $request->attendance[$key]]);
-                    } else {
-                        Absensi::create($data);
+                    $insert = Absensi::create($data);
+                    if($insert)
+                    {
+                        $a++;
                     }
                 }
             }
@@ -132,31 +113,31 @@ class AbsensiController extends Controller
         // filter berdasarkan departement
         $f = $request->filter ?? null;
         $detail_absen = new Absensi;
-        $data['detail_absen'] = $detail_absen;
         $absen = $detail_absen->where('periode', $id)->first();
         if($absen)
         {
             $data['title'] = "Detail Absensi";
+            if ($f == '' || $f == 'all') {
+                $data['salarys'] = Salary::orderBy('a.name', 'asc')
+                                    ->select(DB::raw('tb_salary.*, a.name'))
+                                    ->join('tb_staff AS a', 'a.id', '=', 'tb_salary.staff_id')
+                                    ->get();
+            }
+            else
+            {
+                $data['salarys'] = Salary::orderBy('a.name', 'asc')
+                ->select(DB::raw('tb_salary.*, a.name'))
+                ->join('tb_staff AS a', 'a.id', '=', 'tb_salary.staff_id')
+                ->join('tb_departement AS b', 'b.id', '=', 'a.departement_id')
+                ->where('b.name', $f)
+                ->get();
+            }
             $data['attendance_date']    = $detail_absen->groupBy( 'tanggal_absen' )
                                         ->orderBy( 'tanggal_absen' )
                                         ->select(DB::raw('count(*) as count, DATE( tanggal_absen ) as tanggal_absen'))
                                         ->where('periode', $id)
                                         ->get();
             $data['absensi'] = Absensi::where('periode', $id)->first();
-            if ($f == '' || $f == 'all') {
-                $data['absensiStaff'] = Absensi::orderBy('tb_absensi.id', 'asc')
-                                                ->where('periode', $id)
-                                                ->groupBy('staff_id')
-                                                ->get();
-            } else {
-                $data['absensiStaff'] = Absensi::orderBy('tb_absensi.id', 'asc')
-                                                ->where('periode', $id)
-                                                ->groupBy('staff_id')
-                                                ->join('tb_staff AS a', 'a.id', '=', 'tb_absensi.staff_id')
-                                                ->join('tb_departement AS b', 'b.id', '=', 'a.departement_id')
-                                                ->where('b.name', $f)
-                                                ->get();
-            }
             $data['departement'] = Departement::all();
             $data['filter'] = $f;
             return view('absensi.detail.show', $data);
@@ -172,31 +153,31 @@ class AbsensiController extends Controller
         // filter berdasarkan departement
         $f = $filter ?? null;
         $detail_absen = new Absensi;
-        $detail_absen->where('periode', $id)->first();
+        $absen = $detail_absen->where('periode', $id)->first();
         $data['title'] = "Detail Absensi";
-            if ($f == '' || $f == 'all') {
-                $data['schedules'] = Schedule::orderBy('a.name', 'asc')
-                                    ->select(DB::raw('tb_schedule.*, a.name'))
-                                    ->join('tb_staff AS a', 'a.id', '=', 'tb_schedule.staff_id')
+        if ($f == '' || $f == 'all') {
+            $data['salarys'] = Salary::orderBy('a.name', 'asc')
+                                ->select(DB::raw('tb_salary.*, a.name'))
+                                ->join('tb_staff AS a', 'a.id', '=', 'tb_salary.staff_id')
+                                ->get();
+        }
+        else
+        {
+
+            $data['salarys'] = Salary::orderBy('a.name', 'asc')
+            ->select(DB::raw('tb_salary.*, a.name'))
+            ->join('tb_staff AS a', 'a.id', '=', 'tb_salary.staff_id')
+            ->join('tb_departement AS b', 'b.id', '=', 'a.departement_id')
+            ->where('b.name', $f)
+            ->get();
+        }
+        $data['attendance_date']    = $detail_absen->groupBy( 'tanggal_absen' )
+                                    ->orderBy( 'tanggal_absen' )
+                                    ->select(DB::raw('count(*) as count, DATE( tanggal_absen ) as tanggal_absen'))
+                                    ->where('periode', $id)
                                     ->get();
-            }
-            else
-            {
-                $data['schedules'] = Schedule::orderBy('a.name', 'asc')
-                ->select(DB::raw('tb_schedule.*, a.name'))
-                ->join('tb_staff AS a', 'a.id', '=', 'tb_schedule.staff_id')
-                ->join('tb_departement AS b', 'b.id', '=', 'a.departement_id')
-                ->where('b.name', $f)
-                ->get();
-            }
-            $data['attendance_date']    = $detail_absen->groupBy( 'tanggal_absen' )
-                                        ->orderBy( 'tanggal_absen' )
-                                        ->select(DB::raw('count(*) as count, DATE( tanggal_absen ) as tanggal_absen'))
-                                        ->where('periode', $id)
-                                        ->get();
-            $data['absensi'] = Absensi::where('periode', $id)->first();
-            $data['departement'] = Departement::all();
-            $data['filter'] = $f;
+        $data['absensi'] = Absensi::where('periode', $id)->first();
+        $data['filter'] = $f;
         return view('absensi.detail.excel', $data);
     }
 }

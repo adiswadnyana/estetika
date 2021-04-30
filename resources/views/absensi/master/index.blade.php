@@ -40,6 +40,7 @@
                                     <tr>
                                         <th style="width:100px;"></th> 
                                         <th>Periode</th>
+                                        <th>Bulan Ke</th>
                                     </tr>
                                 </thead> 
                                 <tbody>
@@ -51,6 +52,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ str_replace('-', ', ', strtoupper($item->periode)) }}</td>
+                                            <td>{{ $item->bulan_ke}}</td> 
                                         </tr>
                                     @endforeach
                                 <tbody>
@@ -74,6 +76,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
+    @include('alert.mk-notif');
     <script>
         function hapus(id){
             swal({

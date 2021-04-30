@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Master\Attendance;
-use App\Models\Master\Staff;
 
 class Absensi extends Model
 {
     protected $table = 'tb_absensi';
-    protected $fillable = ['staff_id', 'periode', 'attendance_id', 'tanggal_absen', 'jumlah_lembur', 'waktu_masuk', 'waktu_keluar'];
+    protected $fillable = ['salary_id', 'periode', 'bulan_ke', 'attendance_id', 'status', 'tanggal_absen', 'jumlah_lembur', 'waktu_masuk', 'waktu_keluar'];
 
     public function attendance()
     {
@@ -19,10 +18,5 @@ class Absensi extends Model
     public function salary()
     {
         return $this->belongsTo(Salary::class);
-    }
-
-    public function staff()
-    {
-        return $this->belongsTo(Staff::class);
     }
 }

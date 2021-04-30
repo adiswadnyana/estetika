@@ -4,6 +4,7 @@
 @endsection
 @section('content')
     <div class="content-wrapper pb-3">
+    
         <div class="content pb-5 pt-3">
               <div class="container-fluid">
                 <div class="row">
@@ -18,9 +19,10 @@
                                 <div class="float-left offset-5 pt-1">
                                     <span class="d-none d-md-block d-lg-block">DAFTAR ABSENSI</span>
                                 </div>
-                                <div class="float-right row">
+                                <div class="float-right">
                                     <form action="{{ url()->current() }}">
                                         <div class="input-group">
+                                           
                                             <select name="filter" class="form-control input-sm select2">
                                                 <option value="">Tampilkan semua</option>
                                                 @if (!empty($filter))
@@ -45,6 +47,14 @@
                                             <td style="width: 5px;">:</td>
                                             <td>{{ str_replace('-', ' - ', ucwords($absensi->periode)) }}</td>
                                         </tr>
+                                        <tr style="line-height: 1px;">
+                                            <td>Bulan Ke</td>
+                                            <td>:</td>
+                                            <td>{{ $absensi->bulan_ke }}</td>
+                                        </tr>
+                                        <tr>
+                                            
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -64,7 +74,7 @@
                                         <tr class="text-center bg-light" style="line-height: 0.2;">
                                             <td style="width:5px;">NO.</td>
                                             <td>Nama</td>
-                                            <td>Status</td>
+                                            <td>Posisi</td>
                                             <td>Departement</td>
                                             
                                             @foreach ($attendance_date as $d)
@@ -75,20 +85,21 @@
                                                 $grand_total = 0;
                                             @endphp
 
-                                            @forelse ($absensiStaff as $absensi)
+                                            @forelse ($salarys as $salary)
                                             <tr style="line-height: 0.2;">
                                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                                <td>{{ $absensi->staff->name }}</td>
-                                                <td>
-                                                    <span class="badge {{ $absensi->staff->position->status == 'Staff' ? 'badge-info' : 'badge-secondary' }}">{{ $absensi->staff->position->status ?? '' }}</span>
-                                                </td>
-                                                <td>{{ $absensi->staff->departement->name }}</td>
+                                                <td>{{ $salary->staff->name }}</td>
+                                                <td>{{ $salary->staff->position->name }}</td>
+                                                <td>{{ $salary->staff->departement->name }}</td>
                                                 @php
                                                     $sum_kehadiran = 0;
-                                                    $count_absen_staff = $detail_absen->where(['periode' => $absensi->periode, 'staff_id' => $absensi->staff_id])->count();
+                                                    $sum_jam = 0;
+                                                    $grand_hari = 0;
+                                                    $grand_lembur = 0;
+                                                    $count_absen_staff = $salary->absensi->where('periode', $absensi->periode)->count();
                                                 @endphp
                                                 
-                                                @foreach ($detail_absen->where(['periode' => $absensi->periode, 'staff_id' => $absensi->staff_id])->get() as $item)
+                                                @forelse ($salary->absensi->where('periode', $absensi->periode) as $item)
                                                     @if ($loop->first)
                                                         @if (count($attendance_date) != $count_absen_staff)
                                                             <td colspan="{{ intval(count($attendance_date)) - intval($count_absen_staff) }}"><hr class="p-0 m-0 label-danger"></td>
@@ -96,19 +107,27 @@
                                                     @endif
 
                                                     @if ($item->attendance_id != '')     
-                                                        <td class="text-center">
+                                                        <td>
                                                             {!! '<span class="'.$item->attendance->label.'">'.$item->attendance->singkatan.'</span>' !!}
                                                         </td>
                                                     @else
                                                         <td class="text-center" style="width:20px;"><i class="fa fa-remove text-danger" style="line-height: 0.2;"></i></td>
                                                     @endif
                                                     @php
+                                                        $sum_jam += $item->jumlah_lembur;
                                                         $sum_kehadiran +=  $item->attendance->value;
+                                                        $grand_hari = $sum_kehadiran * $salary->salary;
+                                                        $grand_lembur = $sum_jam * $salary->uang_overtime;
                                                     @endphp
 
-                                                @endforeach
-                                                
-                                                @if ($count_absen_staff == 0)
+                                                @empty
+                                                @endforelse
+
+                                                @php
+                                                    $total = $grand_hari + $grand_lembur;
+                                                    $grand_total += $total;
+                                                @endphp
+                                                @if ($sum_kehadiran == 0)
                                                     <td class="not_absen text-center">-</td>
                                                 @endif
                                                 <td style="vertical-align: middle; text-align: center;">{{ $sum_kehadiran }}</td>
@@ -144,6 +163,7 @@
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.6-rc.1/dist/js/select2.min.js"></script>
+@include('alert.mk-notif')
     <script>
         $('.select2').select2({
 			placeholder : 'Filter Data..'

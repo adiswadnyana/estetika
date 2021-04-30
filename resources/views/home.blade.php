@@ -6,59 +6,42 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="row">
-							 <!-- ./col -->
-                             <div class="col-lg-4 col-7">
-                                    <!-- small box -->
-                                    <div class="small-box bg-info">
-                                    <div class="inner">
-                                        <h3>{{ $salary ?? 0 }}</h3>
-
-                                        <p>Salary</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-cash"></i>
-                                    </div>
-                                    <a href="{{ route('salary.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                            <!-- ./col -->
-                             <!-- ./col -->
-                                <div class="col-lg-4 col-6">
-                                    <!-- small box -->
-                                    <div class="small-box bg-danger">
-                                    <div class="inner">
-                                        <h3>{{ $schedule ?? 0 }}</h3>
-
-                                        <p>Project</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-pie-graph"></i>
-                                    </div>
-                                    <a href="{{ route('master.departement.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                            <!-- ./col -->
-
-                    <!-- Staff Box -->
-                        <div class="col-lg-4 col-7">
-                            <div class="small-box bg-warning">
-                                <div class="inner">
-                                    <h3>{{ $staff ?? 0 }}</h3>
-
-                                    <p>Staff</p>
-                                </div>
-                                    <div class="icon">
-                                    <i class="ion ion-person-add"></i>
-                                    </div>
-                                <a href="{{ route('master.staff.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+							<div class="col-md-4 col-sm-4 col-12">
+								<div class="info-box bg-info-gradient">
+									<span class="info-box-icon"><i class="fa fa-money"></i></span>
+									<div class="info-box-content">
+										<span class="info-box-text">Salary</span>
+										<span class="info-box-number">{{ $salary ?? 0 }}</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-12">
+								<div class="info-box bg-success-gradient">
+									<span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+		
+									<div class="info-box-content">
+										<span class="info-box-text">Schedule</span>
+										<span class="info-box-number">{{ $schedule ?? 0 }}</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-12">
+								<div class="info-box bg-secondary-gradient">
+									<span class="info-box-icon"><i class="fa fa-user-circle"></i></span>
+									<div class="info-box-content">
+										<span class="info-box-text">Staff</span>
+										<span class="info-box-number">{{ $staff ?? 0 }}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<hr>
 				<div class="row">
 					<div class="col-md-10 offset-md-1">
 						<div class="col-md-5 col-sm-12 col-12 mb-3 float-left">
-							<div class="text-center">Jumlah Staff berdasarkan Departement</div>
+							<div class="text-center">Jumlah Staff berdasarkan Lokasi Proyek</div>
 							<canvas id="BarChartStaffDepartement" width="200" height="200"></canvas>
 						</div>
 						<div class="col-md-5 col-sm-12 col-12 mb-3 float-right">
@@ -73,7 +56,7 @@
 
 @endsection
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script>
 	$('.alert').fadeOut(7000);
     var bar_staff_departement = document.getElementById('BarChartStaffDepartement').getContext('2d');

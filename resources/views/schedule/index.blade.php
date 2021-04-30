@@ -16,9 +16,11 @@
                             </div>
                             <input type="search" placeholder="Search" aria-label="Search..." class="form-control input-flat border-0" id="search"> 
                         </div> 
-                        <a href="{{ route('schedule.create') }}" class="btn btn-default app-shadow d-none d-md-inline-block ml-auto">
-                            <i class="fas fa-user-plus fa-fw"></i> Tambah
-                        </a>
+                        @if (Auth::user()->hasRole('admin'))
+                            <a href="{{ route('schedule.create') }}" class="btn btn-default app-shadow d-none d-md-inline-block ml-auto">
+                                <i class="fas fa-user-plus fa-fw"></i> Tambah
+                            </a>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -33,7 +35,7 @@
                                 Data Jadwal Staf
                                 <span id="count" class="badge badge-danger float-right float-xl-right mt-1">{{ $count }}</span>
                             </div>
-                            <table id="datatable" class="table table-hover table-striped">
+                            <table id="datatable" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="width: 100px;">#</th> 
@@ -47,7 +49,7 @@
                                     @foreach ($schedule as $item)
                                         <tr id="hide{{ $item->id }}">
                                             <td class="text-center">
-                                                <a href="#" class="text-secondary nav-link p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a href="#" class="text-secondary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
@@ -64,7 +66,7 @@
                                             <td>{{ $item->tgl_masuk ?? '' }}</td> 
                                             <td>{{ $item->ket_schedule ?? '' }}</td> 
                                             <td>
-                                                <span class="badge {{ $item->staff->position->status == 'Staff' ? 'badge-info' : 'badge-secondary' }}">{{ $item->staff->position->status ?? '' }}</span>
+                                                <span class="badge {{ $item->status == 'Staff' ? 'badge-info' : 'badge-secondary' }}">{{ $item->status ?? '' }}</span>
                                             </td> 
                                         </tr>
                                     @endforeach
@@ -89,6 +91,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
+    @include('alert.mk-notif')
     <script>
         function hapus(id){
             swal({
