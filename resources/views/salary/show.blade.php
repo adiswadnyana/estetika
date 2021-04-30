@@ -19,7 +19,7 @@
                                 <div class="float-left offset-5 pt-1">
                                     <span class="d-none d-md-block d-lg-block">{{ $title ?? '' }}</span>
                                 </div>
-                                <div class="float-right">
+                                <div class="float-right row">
                                     <form action="{{ url()->current() }}">
                                         <div class="input-group">
                                             <select name="filter" class="form-control input-sm select2">
@@ -42,28 +42,18 @@
                                 <div class="col-md-9 p-0">
                                     <table class="table no-border header-table mb-0" style="">
                                         <tr style="line-height: 1px;">
-                                            <td>Staff Name</td>
-                                            <td>:</td>
-                                            <td>{{ $salary->staff->name }}</td>
+                                            <td width="100">Nama</td>
+                                            <td width="10" class="text-center">:</td>
+                                            <td>{{ $staff->name }}</td>
                                         </tr>
                                         <tr style="line-height: 1px;">
-                                            <td>Salary/Day</td>
-                                            <td>:</td>
-                                            <td>{{ number_format($salary->salary, 0, ',', '.') }}</td>
+                                            <td width="100">Position Status</td>
+                                            <td width="10" class="text-center">:</td>
+                                            <td>{{ $staff->position->status }}</td>
                                         </tr>
                                         <tr style="line-height: 1px;">
-                                            <td>Overtime/Hours</td>
+                                            <td>Periode</td>
                                             <td>:</td>
-                                            <td>{{ number_format($salary->uang_overtime, 0, ',', '.') }}</td>
-                                        </tr>
-                                        <tr style="line-height: 1px;">
-                                            <td>POT BPJS/Month</td>
-                                            <td>:</td>
-                                            <td>{{ number_format($salary->pot_bpjs, 0, ',', '.') }}</td>
-                                        </tr>
-                                        <tr style="line-height: 1px;">
-                                            <td style="width: 100px;">Periode Salary</td>
-                                            <td style="width: 5px;">:</td>
                                             <td>{{ ucwords($filter ?? 'All') }}</td>
                                         </tr>
                                     </table>
@@ -73,67 +63,52 @@
                                 <table class="table table-bordered mb-2 mr-2" style="font-size: 14px;">
                                     <thead>
                                         <tr class="bg-light">
-                                            <th>Tgl. Absen</th>
+                                            <th>Periode</th>
+                                            <th>Salary</th>
+                                            <th>Tgl. Salary</th>
                                             <th>Status</th>
-                                            <th>Value</th>
-                                            <th>Lembur/Jam</th>
+                                            <th>Lembur</th>
+                                            <th>Gaji Lembur</th>
+                                            @if ($staff->position->status == 'Staff')
+                                                <th>BPJS</th>
+                                                <th>Transportasi</th>
+                                            @endif
                                             <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $sum_kehadiran = 0;
-                                            $sum_jam = 0;
-                                            $total_hari = 0;
-                                            $total_lembur = 0;
-                                            $grand_total = 0;
-                                            $grand_total_all = 0;
-                                        @endphp
-                                        @forelse ($salarys as $item)
-                                            @php
-                                                $sum_jam += $item->jumlah_lembur;
-                                                $sum_kehadiran +=  $item->attendance->value;
-                                                $total_hari = $item->attendance->value * $salary->salary;
-                                                $total_lembur = $item->jumlah_lembur * $salary->uang_overtime;
-                                                $total = $total_hari + $total_lembur;
-                                            @endphp
+                                        @forelse ($salary as $item)
                                             <tr style="line-height: 1;">
-                                                <td>{{ date('d M Y', strtotime($item->tanggal_absen)) }}</td>
+                                                <td>{{ ucwords($item->periode) }}</td>
+                                                <td>Rp. {{ number_format($item->salary, 0, ',', '.') }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($item->tgl_salary)) }}</td>
                                                 <td>
-                                                    {!! '<span class="'.$item->attendance->label.'">'.$item->attendance->name.'</span>' !!}
+                                                    <span class="badge {{ $item->status_gaji == 'Dibayar' ? 'badge-success' : 'badge-danger' }}">{{ $item->status_gaji ?? 'Belum Dibayar' }}</span>
                                                 </td>
-                                                <td>{{ $item->attendance->value }}</td>
-                                                <td>{{ $item->jumlah_lembur }}</td>
-                                                <td>Rp. {{ number_format($total, 0, ',', '.') }}</td>
+                                                <td>{{ $item->jumlah_overtime }}</td>
+                                                <td>Rp. {{ number_format($item->uang_overtime, 0, ',', '.') }} / Jam</td>
+                                                @if ($staff->position->status == 'Staff')
+                                                <td>Rp. {{ number_format($item->pot_bpjs, 0, ',', '.') }}</td>
+                                                <td>Rp. {{ number_format($item->transportasi, 0, ',', '.') }}</td>
+                                                @endif
+                                                <td class="font-weight-bold">Rp. {{ number_format($item->total, 0, ',', '.') }}</td>
                                             </tr>
-                                            
-                                            @php
-                                                $total = $total_hari + $total_lembur;
-                                                $grand_total += $total;
-                                                $grand_total_all = $grand_total + $salary->pot_bpjs;
-                                            @endphp
                                         @empty
                                             <tr>
-                                                <td class="text-center" colspan="5">Tidak ada data untuk ditampilkan</td>
+                                                <td class="text-center" colspan="7">Tidak ada data untuk ditampilkan</td>
                                             </tr>
                                         @endforelse
-                                        <tr class="text-bold">
-                                           <td colspan="2">Grand Total Gaji <span class="float-right">POT BPJS : {{ $salary->pot_bpjs }}</span></td>
-                                           <td>{{ $sum_kehadiran }} x {{ number_format($salary->salary, 0, ',', '.') }}</td>
-                                           <td>{{ $sum_jam }}  x {{ number_format($salary->uang_overtime, 0, ',', '.') }}</td>
-                                           <td>Rp. {{ number_format($grand_total_all, 0, ',', '.') }}</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="card-footer p-2">
                                 <div class="text-right">
                                     @if (!empty($filter))
-                                        <a href="{{ route('salary.export.excel', [$salary->id, $filter]) }}" class="btn btn-success btn-sm" id="export-excel">
+                                        <a href="{{ route('salary.export.excel', [$staff->id, $filter]) }}" class="btn btn-success btn-sm" id="export-excel">
                                             <i class="fa fa-file-excel-o fa-fw"></i> Export Excel
                                         </a>
                                     @else
-                                        <a href="{{ route('salary.export.excel', [$salary->id, 'all']) }}" class="btn btn-success btn-sm" id="export-excel">
+                                        <a href="{{ route('salary.export.excel', [$staff->id, 'all']) }}" class="btn btn-success btn-sm" id="export-excel">
                                             <i class="fa fa-file-excel-o fa-fw"></i> Export Excel
                                         </a>
                                     @endif

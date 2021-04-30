@@ -17,7 +17,7 @@
                             <input type="search" placeholder="Search" aria-label="Search..." class="form-control input-flat border-0" id="search"> 
                         </div> 
                         <a href="{{ route('salary.create') }}" class="btn btn-default app-shadow d-none d-md-inline-block ml-auto">
-                            <i class="fas fa-user-plus fa-fw"></i> Tambah
+                            <i class="fas fa-dollar fa-fw"></i> Input Salary
                         </a>
                     </div>
                 </form>
@@ -38,18 +38,17 @@
                                     <tr>
                                         <th class="text-center" style="width: 100px;">#</th> 
                                         <th>Staff</th>
-                                        <th>Gaji Hari</th>
-                                        <th>Gaji. Lembur</th>
-                                        <th>POT BPJS</th>
-                                        <th>Tgl. Gaji</th>
-                                        <th>Detail</th>
+                                        <th>Position</th>
+                                        <th>Status</th>
+                                        <th>Salary</th>
+                                        <th class="text-right">Detail</th>
                                     </tr>
                                 </thead> 
                                 <tbody>
                                     @foreach ($salary as $item)
                                         <tr id="hide{{ $item->id }}">
                                             <td class="text-center">
-                                                <a href="#" class="text-secondary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a href="#" class="text-secondary nav-link p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
@@ -63,12 +62,13 @@
                                                 </div>
                                             </td>
                                             <td>{{ $item->staff->name ?? '' }}</td> 
-                                            <td>{{ 'Rp. ' . number_format($item->salary ?? '', 0, ',', '.') }}</td> 
-                                            <td>{{ 'Rp. ' . number_format($item->uang_overtime ?? '', 0, ',', '.') }}</td> 
-                                            <td>{{ 'Rp. ' . number_format($item->pot_bpjs ?? '', 0, ',', '.') }}</td> 
-                                            <td>{{ $item->tgl_salary ?? '' }}</td> 
+                                            <td>{{ $item->staff->position->name ?? '' }}</td> 
                                             <td>
-                                                <a href="{{ route('salary.show', $item->id) }}" class="btn btn-sm btn-info">Detail Salary</a>    
+                                                <span class="badge {{ $item->staff->position->status == 'Staff' ? 'badge-info' : 'badge-secondary' }}">{{ $item->staff->position->status ?? '' }}</span>
+                                            </td> 
+                                            <td>{{ 'Rp. ' . number_format($item->staff->position->salary ?? '', 0, ',', '.') }} {{ $item->staff->position->status == 'Staff' ? '/ Bln' : '/ Hari' }}</td> 
+                                            <td class="text-right">
+                                                <a href="{{ route('salary.show', $item->staff_id) }}" class="btn btn-sm btn-info">Detail Salary</a>    
                                             </td> 
                                         </tr>
                                     @endforeach
@@ -82,7 +82,7 @@
     </div>
 
     <a href="{{ route('salary.create') }}" class="btn btn-lg rounded-circle btn-primary btn-fly d-block d-md-none app-shadow">
-        <span><i class="fas fa-user-plus fa-sm align-middle"></i></span>
+        <span><i class="fas fa-plus fa-sm align-middle"></i></span>
     </a>
 
 @endsection
@@ -93,7 +93,6 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
-    @include('alert.mk-notif')
     <script>
         function hapus(id){
             swal({
@@ -109,6 +108,7 @@
             },
             function(isConfirm){
                 if (isConfirm) {
+                    console.log(id);
                     $.ajax({
                         url:"{{URL::to('/salary/destroy')}}",
                         data:"id=" + id ,

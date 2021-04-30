@@ -38,15 +38,15 @@
                                     <tr>
                                         <th class="text-center" style="width: 100px;">#</th> 
                                         <th>Nama</th> 
-                                        <th>Salary</th>
                                         <th>Status</th>
+                                        <th>Salary</th>
                                     </tr>
                                 </thead> 
                                 <tbody>
                                     @foreach ($position as $item)
                                         <tr id="hide{{ $item->id }}">
                                             <td class="text-center">
-                                                <a href="#" class="text-secondary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a href="#" class="text-secondary nav-link p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
@@ -55,13 +55,16 @@
                                                     </a>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="javascript:void(0)" onClick="hapus({{$item->id}})">
+                                               
                                                         <i class="far fa-trash-alt mr-2"></i> Hapus
                                                     </a>
                                                 </div>
                                             </td>
                                             <td>{{ $item->name ?? '' }}</td> 
+                                            <td>
+                                                <span class="badge {{ $item->status == 'Staff' ? 'badge-info' : 'badge-secondary' }}">{{ $item->status ?? '' }}</span>
+                                            </td> 
                                             <td>{{ number_format($item->salary ?? '', 0, ',', '.')}}</td> 
-                                            <td>{{ $item->status ?? ''}}</td> 
                                         </tr>
                                     @endforeach
                                 <tbody>
@@ -85,7 +88,6 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
-    @include('alert.mk-notif')
     <script>
         function hapus(id){
             swal({

@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function(){
             Route::get('salary/{salary}/edit', 'SalaryController@edit')->name('salary.edit');
             Route::patch('salary/{salary}/update', 'SalaryController@update')->name('salary.update');
             Route::get('staff/get_salary', 'SalaryController@getSalary');
+            Route::get('salary/{id}', 'SalaryController@destroy')->name('salary.destroy');
             Route::get('salary/export/excel/id={id}/filter={filter}', 'SalaryController@excel')->name('salary.export.excel');
         
             Route::get('overtime/create', 'OvertimeController@create')->name('overtime.create');
@@ -112,7 +113,7 @@ Route::middleware('auth')->group(function(){
             Route::get('schedule/{id}', 'ScheduleController@destroy')->name('schedule.destroy');
         });
     });
-    Route::middleware('role:admin|supervisor')->group(function(){
+    Route::middleware('role:admin|supervisor|accounting')->group(function(){
         Route::get('absensi', 'AbsensiController@index')->name('absensi.index');
         Route::get('absensi/create', 'AbsensiController@create')->name('absensi.create');
         Route::post('absensi/detail/create', 'AbsensiController@store')->name('absensi.store');

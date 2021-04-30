@@ -1,5 +1,3 @@
-    
-
 <nav class="navbar fixed-bottom footbar bg-white p-0 d-flex d-md-none" style="border-top: 1px solid rgb(222, 226, 230);">
     <div class="col text-center">
         <a href="{{ route('home') }}" class="navbar-brand text-secondary"><i class="fas fa-home"></i> <small class="d-block">Home</small></a>

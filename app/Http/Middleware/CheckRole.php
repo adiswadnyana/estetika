@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Auth;
 
 class CheckRole
 {
@@ -14,6 +15,19 @@ class CheckRole
                 return $next($request);
             }
         }
-        return abort(404);
+        // return abort(404);
+        if (Auth::user()->hasRole('supervisor')) {
+            $message = [
+                'alert-type' => 'error',
+                'message' => 'Maaf, anda tidak punya akses untuk melakukan ini. Anda hanya dapat melihat'
+            ];
+        }
+        else{
+            $message = [
+                'alert-type' => 'error',
+                'message' => 'Maaf, anda tidak punya akses untuk melakukan ini.'
+            ];
+        }
+        return redirect()->back()->with($message);
     }
 }

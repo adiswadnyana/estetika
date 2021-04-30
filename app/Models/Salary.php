@@ -11,7 +11,7 @@ class Salary extends Model
     use SoftDeletes;
 
     protected $table = 'tb_salary';
-    protected $fillable = ['staff_id', 'tgl_salary', 'salary', 'uang_overtime', 'pot_bpjs'];
+    protected $fillable = ['staff_id', 'salary', 'uang_overtime', 'jumlah_overtime', 'pot_bpjs', 'transportasi', 'total', 'periode', 'status', 'tgl_salary', 'status_gaji'];
     protected $dates = ['deleted_at'];
 
     public function staff()

@@ -27,7 +27,6 @@
                                 @csrf
                                 <input type="hidden" name="code" value="{{ $request->code ?? '' }}" readonly/>
                                 <input type="hidden" name="periode" value="{{ strtolower($request->periode ?? '') .'-'. date('Y', strtotime($request->tanggal)) }}" readonly/>
-                                <input type="hidden" name="bulan_ke" value="{{ $request->bulan_ke ?? '' }}" readonly/>
                                 <input type="hidden" name="tanggal" value="{{ $request->tanggal ?? '' }}" readonly/>
                                 @include('absensi.detail._form')
                             </form>
@@ -46,7 +45,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.0.3/daterangepicker.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.0.3/daterangepicker.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-{{-- @include('absensi._loopAbsensiMasterDetail') --}}
 <script>
     $('.select2').select2({
         placeholder : 'Pilih Data..'

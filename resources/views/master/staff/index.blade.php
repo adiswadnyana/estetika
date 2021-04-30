@@ -38,18 +38,18 @@
                                     <tr>
                                         <th class="text-center" style="width: 100px;">#</th> 
                                         <th>Nama</th>
-                                        <th>Tgl. Lahir</th>
-                                        <th>Alamat</th>
+                                        <!-- <th>Tgl. Lahir</th> -->
+                                        <!-- <th>Alamat</th> -->
                                         <th>No. Telpon</th>
                                         <th>Position</th>
-                                        <th>Penempatan Proyek</th>
+                                        <th>Departement</th>
                                     </tr>
                                 </thead> 
                                 <tbody>
                                     @foreach ($staff as $item)
                                         <tr id="hide{{ $item->id }}">
                                             <td class="text-center">
-                                                <a href="#" class="text-secondary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a href="#" class="text-secondary nav-link p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
@@ -63,10 +63,13 @@
                                                 </div>
                                             </td>
                                             <td>{{ $item->name ?? '' }}</td> 
-                                            <td>{{ $item->birth ?? '' }}</td> 
-                                            <td>{{ $item->addres ?? '' }}</td> 
+                                            <!-- <td>{{ $item->birth ?? '' }}</td>  -->
+                                            <!-- <td>{{ $item->addres ?? '' }}</td>  -->
                                             <td>{{ $item->phone ?? '' }}</td> 
-                                            <td>{{ $item->position->name ?? '' }}</td> 
+                                            <td style="line-height: 1">
+                                                {{ $item->position->name ?? '' }} <br>
+                                                <small><span class="badge {{ $item->position->status == 'Staff' ? 'badge-info' : 'badge-secondary' }}">{{ $item->position->status ?? '' }}</span></small>
+                                            </td> 
                                             <td>{{ $item->departement->name ?? '' }}</td> 
                                         </tr>
                                     @endforeach
@@ -91,7 +94,6 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
     <script src="{{ asset('js/datatables.js') }}"></script>
-    @include('alert.mk-notif')
     <script>
         function hapus(id){
             swal({
