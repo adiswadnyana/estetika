@@ -22,10 +22,10 @@ class TableUsers extends Seeder
             'user_id' => $user->id,
             'position_id' => 1,
             'departement_id' => 1,
-            'name' => 'Tasrin Adiputra',
+            'name' => 'Adi Swadnyana',
             'birth' => date('Y-m-d'),
             'startdate' => date('Y-m-d'),
-            'addres' => 'Makassar',
+            'addres' => 'Denpasar',
             'addres' => '0',
         ]);
     }
