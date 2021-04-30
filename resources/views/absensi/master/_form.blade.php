@@ -1,11 +1,3 @@
-@section('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.6-rc.1/dist/css/select2.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.0.3/daterangepicker.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" integrity="sha512-TQQ3J4WkE/rwojNFo6OJdyu6G8Xe9z8rMrlF9y7xpFbQfW5g8aSWcygCQ4vqRiJqFsDsE1T6MoAOMJkFXlrI9A==" crossorigin="anonymous" />
-@endsection
-
 <div class="card-body">
     <div class="card card-solid">
         <div class="card-body pb-0 pt-3">
@@ -28,13 +20,12 @@
             </div> 
         </div> 
 
-
-
+        
     <!-- periode -->
         <div class="form-group row">
             <label class="col-md-4 col-xs-4 col-form-label justify-flex-end">Periode <span class="text-danger">*</span></label> 
             <div class="col-12 col-md-5 col-lg-5">
-                <select name="periode" class="form-control select2 @error('periode') is-invalid @enderror" id="" required>
+                <select name="periode" class="form-control datepicker @error('periode') is-invalid @enderror" id="" required>
                     <option value=""></option>
                     @for ($index=0; $index<=12; $index++)
                         <option value="{{ $month[$index] }}" {{ $month[$index] == old('periode', $month[date('n')] ?? '') ? 'selected' : '' }}>{{$month[$index] .', '. date('Y') }}</option>
@@ -87,26 +78,3 @@
             </div>
         </div>
     </div>
-
-
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.6-rc.1/dist/js/select2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.id.min.js" integrity="sha512-zHDWtKP91CHnvBDpPpfLo9UsuMa02/WgXDYcnFp5DFs8lQvhCe2tx56h2l7SqKs/+yQCx4W++hZ/ABg8t3KH/Q==" crossorigin="anonymous"></script>
-<script>
-    	$('.select2').select2({
-			placeholder : 'Pilih Data..'
-        });
-     
-        $(function() {
-            $('.datepicker').datepicker({
-                    language: 'id',
-                    format: 'MM-yyyy',
-                    viewMode: "months", 
-                    minViewMode: "months",
-                    autoClose:true,
-                });
-            });
-        
-	</script>
-@endsection
