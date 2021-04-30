@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Apurav - Report</title>
+    <title>Estetika Karya - Report</title>
     <style>
         #master td{
             vertical-align: middle;
