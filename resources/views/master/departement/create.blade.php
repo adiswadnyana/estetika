@@ -13,11 +13,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="text-center">
-                                    <h3 class="card-title">{{ $title }}</h3>
+                                    <h3 class="card-title ml-3">{{ $title }}</h3>
                                 </div>
                                 <div class="back-top">
                                 <a href="{{ route('master.departement.index') }}" class="btn text-muted">
-                                    <i class="fa fa-arrow-left fa-fw"></i></span>
+                                    <i class="fas fa-chevron-circle-left"></i></span>
                                 </a>
                             </div>
                             </div> 

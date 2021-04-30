@@ -16,8 +16,8 @@
                             </div>
                             <input type="search" placeholder="Search" aria-label="Search..." class="form-control input-flat border-0" id="search"> 
                         </div> 
-                        <a href="{{ route('master.staff.create') }}" class="btn btn-default app-shadow d-none d-md-inline-block ml-auto">
-                            <i class="fas fa-user-plus fa-fw"></i> Tambah
+                        <a href="{{ route('master.staff.create') }}" role="button" class="btn btn-primary btn-sm app-shadow d-none d-md-inline-block ml-auto" style="border-radius:50%">
+                        <i class="fa fa-plus"></i>
                         </a>
                     </div>
                 </form>
