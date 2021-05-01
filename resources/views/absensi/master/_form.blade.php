@@ -73,8 +73,8 @@
     <div class="card-footer">
         <div class="float-right">
             <div class="form-group mb-0">
-                <button type="reset" class="btn btn-secondary"><i class="fas fa-undo mr-1"></i> Reset</button>
-                <button type="submit" class="btn btn-primary" name="btnIn"><i class="fas fa-arrow-right mr-1"></i> Next</button> 
+                <button type="reset" class="btn btn-warning btn-xl app-shadow d-none d-md-inline-block ml-auto" style="border-radius:50%"><i class="fas fa-undo"></i></button>
+                <button type="submit" class="btn btn-primary btn-xl app-shadow d-none d-md-inline-block ml-auto" style="border-radius:50%" name="btnIn"><i class="fas fa-arrow-right"></i></button> 
             </div>
         </div>
     </div>

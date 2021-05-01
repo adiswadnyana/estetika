@@ -188,15 +188,15 @@ class AbsensiController extends Controller
                                     ->join('tb_staff AS a', 'a.id', '=', 'tb_schedule.staff_id')
                                     ->get();
             }
-            else
-            {
-                $data['schedules'] = Schedule::orderBy('a.name', 'asc')
-                ->select(DB::raw('tb_schedule.*, a.name'))
-                ->join('tb_staff AS a', 'a.id', '=', 'tb_schedule.staff_id')
-                ->join('tb_departement AS b', 'b.id', '=', 'a.departement_id')
-                ->where('b.name', $f)
-                ->get();
-            }
+            // else
+            // {
+            //     $data['schedules'] = Schedule::orderBy('a.name', 'asc')
+            //     ->select(DB::raw('tb_schedule.*, a.name'))
+            //     ->join('tb_staff AS a', 'a.id', '=', 'tb_schedule.staff_id')
+            //     ->join('tb_departement AS b', 'b.id', '=', 'a.departement_id')
+            //     ->where('b.name', $f)
+            //     ->get();
+            // }
             $data['attendance_date']    = $detail_absen->groupBy( 'tanggal_absen' )
                                         ->orderBy( 'tanggal_absen' )
                                         ->select(DB::raw('count(*) as count, DATE( tanggal_absen ) as tanggal_absen'))

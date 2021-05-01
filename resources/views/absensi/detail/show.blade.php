@@ -120,9 +120,9 @@
                                 </table>
                             </div>
                             <div class="card-footer p-2">
-                                <div class="text-right">
+                                <!-- <div class="text-right">
                                     @if (!empty($filter))
-                                        <a href="{{ route('absensi.export.excel', [$absensi->periode, $filter]) }}" class="btn btn-success btn-sm" id="export-excel">
+                                        <a href="{{ route('absensi.export.excel', [$absensi->periode, 'all']) }}" class="btn btn-success btn-sm" id="export-excel">
                                             <i class="fa fa-file-excel-o fa-fw"></i> Export Excel
                                         </a>
                                     @else
@@ -130,7 +130,7 @@
                                             <i class="fa fa-file-excel-o fa-fw"></i> Export Excel
                                         </a>
                                     @endif
-                                </div>
+                                </div> -->
                             </div>
                             <div id="loading"></div>
                         </div>

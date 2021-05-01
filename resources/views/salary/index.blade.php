@@ -68,7 +68,9 @@
                                             </td> 
                                             <td>{{ 'Rp. ' . number_format($item->staff->position->salary ?? '', 0, ',', '.') }} {{ $item->staff->position->status == 'Staff' ? '/ Bln' : '/ Hari' }}</td> 
                                             <td class="text-right">
-                                                <a href="{{ route('salary.show', $item->staff_id) }}" class="btn btn-sm btn-info">Detail Salary</a>    
+                                                <a href="{{ route('salary.show', $item->staff_id) }}" class="btn btn-sm btn-info" style="border-radius:50%">
+                                                <i class="fas fa-info-circle"></i>
+                                                </a>    
                                             </td> 
                                         </tr>
                                     @endforeach

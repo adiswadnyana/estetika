@@ -18,8 +18,8 @@
                             </div>
                             <input type="search" placeholder="Search" aria-label="Search..." class="form-control input-flat border-0" id="search"> 
                         </div> 
-                        <a href="{{ route('absensi.create') }}" class="btn btn-default d-none d-md-inline-block ml-auto">
-                            <i class="fas fa-plus fa-sm fa-fw"></i> Mulai Absen
+                        <a href="{{ route('absensi.create') }}" role="button" class="btn btn-primary btn-xl app-shadow d-none d-md-inline-block ml-auto" style="border-radius:50%">
+                        <i class="fa fa-plus"></i>
                         </a>
                     </div>
                 </form>
@@ -46,8 +46,8 @@
                                     @foreach ($absensi as $item)
                                         <tr>
                                             <td class="text-left">
-                                                <a href="{{ route('absensi.detail', $item->periode) }}" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-eye fa-sm"></i> Lihat Absen
+                                                <a href="{{ route('absensi.detail', $item->periode) }}" class="btn btn-success btn-sm" style="border-radius:20%">
+                                                <i class="far fa-eye"></i>
                                                 </a>
                                             </td>
                                             <td>{{ str_replace('-', ', ', strtoupper($item->periode)) }}</td>

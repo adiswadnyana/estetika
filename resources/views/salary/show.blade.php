@@ -13,7 +13,7 @@
                             <div class="card-header bg-light">
                                 <h3 class="card-title back-top" style="margin-top: 5px;">
                                     <a href="{{ route('salary.index') }}" title="Kembali" data-toggle="tooltip" data-placement="right" class="btn text-muted">
-                                        <i class="fa fa-arrow-left fa-fw"></i></span>
+                                        <i class="fas fa-chevron-circle-left"></i></span>
                                     </a>
                                 </h3>
                                 <div class="float-left offset-5 pt-1">
