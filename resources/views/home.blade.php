@@ -29,7 +29,7 @@
                                     <div class="inner">
                                         <h3>{{ $departement ?? 0 }}</h3>
 
-                                        <p>Project</p>
+                                        <p>Departement</p>
                                     </div>
                                     <div class="icon">
                                         <i class="ion ion-pie-graph"></i>
