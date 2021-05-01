@@ -10,13 +10,13 @@
                 <li class="dropdown user user-menu">
                     <a href="#" data-toggle="dropdown">
                         <span class="mr-1">{{ ucwords(Auth::user()->staff->name ?? Auth::user()->name) }}</span>
-                        <img src="{{ asset(Auth::user()->staff->photo ?? 'img/user.jpg') }}" class="img-circle elevation-2" style="width: 30px; height: 30px;margin-top: -8px;margin-right: -5px;border-radius: 100%;">
+                        <img src="{{ asset(Auth::user()->staff->photo ?? 'img/user.png') }}" class="img-circle elevation-2" style="width: 30px; height: 30px;margin-top: -8px;margin-right: -5px;border-radius: 100%;">
                     </a>
                     <ul class="dropdown-menu pb-0" style="min-width:250px;">
                         <li class="user-header text-center">
                             <br>
                             
-                            <img src="{{ asset(Auth::user()->staff->photo ?? 'img/user.jpg') }}" class="img-size-50 img-circle elevation-2" style="width: 50px; height: 50px;">
+                            <img src="{{ asset(Auth::user()->staff->photo ?? 'img/user.png') }}" class="img-size-50 img-circle elevation-2" style="width: 50px; height: 50px;">
                             <p>
                                 <br>
                                 {{ ucwords(Auth::user()->role->name) }}

@@ -11,7 +11,7 @@
                     <div class="card">
                         <div class="card-header bg-light">
                             <div class="text-center">
-                                <h3 class="card-title">Profil Detail</h3>
+                                <h3 class="card-title">Profile Detail</h3>
                             </div>
                         </div>
                         <div class="card-body p-0">
