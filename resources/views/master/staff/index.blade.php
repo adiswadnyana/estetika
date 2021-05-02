@@ -38,8 +38,8 @@
                                     <tr>
                                         <th class="text-center" style="width: 100px;">#</th> 
                                         <th>Nama</th>
-                                        <!-- <th>Tgl. Lahir</th> -->
-                                        <!-- <th>Alamat</th> -->
+                                        <th>Tgl. Lahir</th>
+                                        <th>Alamat</th>
                                         <th>No. Telpon</th>
                                         <th>Position</th>
                                         <th>Departement</th>
@@ -63,8 +63,8 @@
                                                 </div>
                                             </td>
                                             <td>{{ $item->name ?? '' }}</td> 
-                                            <!-- <td>{{ $item->birth ?? '' }}</td>  -->
-                                            <!-- <td>{{ $item->addres ?? '' }}</td>  -->
+                                            <td>{{ $item->birth ?? '' }}</td> 
+                                            <td>{{ $item->addres ?? '' }}</td> 
                                             <td>{{ $item->phone ?? '' }}</td> 
                                             <td style="line-height: 1">
                                                 {{ $item->position->name ?? '' }} <br>
