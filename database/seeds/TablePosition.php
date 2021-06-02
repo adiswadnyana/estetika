@@ -8,11 +8,12 @@ class TablePosition extends Seeder
     public function run()
     {
         $position = [
-            ['name'=>'Cheif'],
-            ['name'=>'Manager'],
+            ['name'=>'Direktur'],
+            ['name'=>'HRD'],
+            ['name'=>'Accounting'],
             ['name'=>'Supervisor'],
-            ['name'=>'Head'],
-            ['name'=>'Helper'],
+            ['name'=>'Driver'],
+            ['name'=>'Outsourcing'],
         ];
         foreach($position as $row)
         {

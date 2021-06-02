@@ -9,7 +9,7 @@ use App\Models\Master\Keterangan;
 use App\Models\Master\Attendance;
 use App\Models\Master\Departement;
 use App\Models\Salary;
-use App\Models\Schedule;
+use Auth;
 use DB;
 use Illuminate\Support\Facades\Input;
 
@@ -34,15 +34,22 @@ class AbsensiController extends Controller
         $create_code = "ABSEN-KODE-".$maxkode;
         $data['code']  = $create_code;
         $data['title'] = "Create Master Absen";
-        $data['departement'] = Departement::all();
-        $data['month'] = array("","Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+        $departement_id = Auth::user()->staff->departement_id;
+        $role_id = Auth::user()->role_id;
+        if($role_id==3){
+            $data['departement'] = Departement::where('id',$departement_id)->get(); 
+        }
+        else {
+            $data['departement'] = Departement::all();
+        }
+        $data['month'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
         return view('absensi.master.create', $data);
     }
 
     public function store(Request $request)
     {
         // filter berdasarkan departement
-        echo "<script>console.log('req =>'$request);</script>";
+        // echo "<script>console.log('req =>'$request);</script>";
         // print_r($request);
         $f = $request->filter ?? null;
         $request->validate([
@@ -52,26 +59,12 @@ class AbsensiController extends Controller
             'tanggal'  => 'required',
         ]);
 
-        $cek_schedule = Schedule::get();
-
-        if (is_null($cek_schedule)) {
-            $data['schedule'] = true;
-            $data['info'] = 'disabled';
-        }
         $absen_detail = new Absensi();
         $data['absen_detail'] = $absen_detail;
         $tanggal_absen = date('Y-m-d', strtotime($request->tanggal));
         $data['periode'] = strtolower($request->periode ?? '') .'-'. date('Y', strtotime($request->tanggal));
         $data['tanggal_absen'] = $tanggal_absen;
         $cek_absen = $absen_detail->where(['tanggal_absen' => $tanggal_absen])->count();
-        // if ($cek_absen >0 ){
-        //     $message = [
-        //         'alert-type' => 'error',
-        //         'message' => 'Anda sudah absen pada tanggal '.tgl_indo($tanggal_absen).' ini, Absen lagi ditanggal berikutnya.'
-        //     ];
-        //     return redirect()->back()->with($message);
-        // }
-       
         $data['title'] = "Absen Harian";
         $data['request']  = $request;
         $keterangan = new Keterangan();
@@ -182,29 +175,14 @@ class AbsensiController extends Controller
         $detail_absen = new Absensi;
         $detail_absen->where('periode', $id)->first();
         $data['title'] = "Detail Absensi";
-            if ($f == '' || $f == 'all') {
-                $data['schedules'] = Schedule::orderBy('a.name', 'asc')
-                                    ->select(DB::raw('tb_schedule.*, a.name'))
-                                    ->join('tb_staff AS a', 'a.id', '=', 'tb_schedule.staff_id')
+        $data['attendance_date']    = $detail_absen->groupBy( 'tanggal_absen' )
+                                    ->orderBy( 'tanggal_absen' )
+                                    ->select(DB::raw('count(*) as count, DATE( tanggal_absen ) as tanggal_absen'))
+                                    ->where('periode', $id)
                                     ->get();
-            }
-            // else
-            // {
-            //     $data['schedules'] = Schedule::orderBy('a.name', 'asc')
-            //     ->select(DB::raw('tb_schedule.*, a.name'))
-            //     ->join('tb_staff AS a', 'a.id', '=', 'tb_schedule.staff_id')
-            //     ->join('tb_departement AS b', 'b.id', '=', 'a.departement_id')
-            //     ->where('b.name', $f)
-            //     ->get();
-            // }
-            $data['attendance_date']    = $detail_absen->groupBy( 'tanggal_absen' )
-                                        ->orderBy( 'tanggal_absen' )
-                                        ->select(DB::raw('count(*) as count, DATE( tanggal_absen ) as tanggal_absen'))
-                                        ->where('periode', $id)
-                                        ->get();
-            $data['absensi'] = Absensi::where('periode', $id)->first();
-            $data['departement'] = Departement::all();
-            $data['filter'] = $f;
+        $data['absensi'] = Absensi::where('periode', $id)->first();
+        $data['departement'] = Departement::all();
+        $data['filter'] = $f;
         return view('absensi.detail.excel', $data);
     }
 }

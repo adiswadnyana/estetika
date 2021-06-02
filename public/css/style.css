@@ -1,5 +1,18 @@
 /* .page-item.active .page-link{z-index: 1;color: #fff;background-color: #dc3545;border-color:#ca3442;} */
-.back-top {position: absolute; top: 4px; left: 0;}.card-tools{margin-bottom: 3px;margin-right: 8px;}.btn-fly{position:fixed;bottom:80px;right:15px;height:54px;width:54px;}
+.back-top {
+    position: absolute;
+    top: 4px; left: 0;
+}
+.card-tools{
+    margin-bottom: 3px;
+    margin-right: 8px;
+}
+.btn-fly{
+    position:fixed;
+    bottom:80px;
+    right:15px;
+    height:54px;
+    width:54px;}
 .table{
     white-space: nowrap;
     font-size: 15px;
@@ -36,7 +49,7 @@ table.dataTable td.dataTables_empty, table.dataTable th.dataTables_empty{
   text-indent : 100%;
   font-size   : 0;
   opacity     : 0.6;
-  background  : #E0E0E0  url('./../img/load.gif') center no-repeat;
+  background  : #E0E0E0  url('./../img/loading.gif') center no-repeat;
   background-size:8%;
 }
 

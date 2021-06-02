@@ -1,5 +1,5 @@
 <div class="card-body pt-0 pl-1 pr-1 pb-0">
-        
+
     @if (empty($staff))
         <div class="alert alert-warning text-justify">
             <strong>Warning !!</strong> Data staff belum ada, anda tidak dapat melakukan absensi. Silahkan input data staff terlebih dulu 
@@ -83,9 +83,9 @@
                     <td style="min-width: 180px;">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Rp</span>
+                                <span class="input-group-text">- Rp</span>
                             </div>
-                            <input type="text" name="pot_bpjs" class="form-control @error('pot_bpjs') is-invalid @enderror" id="pot_bpjs" value="0" placeholder="0" onkeypress="return hanyaAngka(this)" maxlength="8" autocomplete="off">
+                            <input type="text" name="pot_bpjs" class="form-control @error('pot_bpjs') is-invalid @enderror" id="pot_bpjs"  placeholder="0" onkeypress="return hanyaAngka(this)" maxlength="8" autocomplete="off">
                         </div>
                         @error('pot_bpjs')
                             <span class="invalid-feedback" role="alert">
@@ -94,7 +94,7 @@
                         @enderror
                     </td>
                     <td class="text-right">
-                        <span id="pot_bpjs_preview">Rp. 0</span>
+                        <span id="pot_bpjs_preview">- Rp. 0</span>
                     </td>
                 </tr>
                 <tr>
@@ -104,7 +104,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Rp</span>
                             </div>
-                            <input type="text" name="transportasi" class="form-control @error('transportasi') is-invalid @enderror" id="transportasi" value="0" placeholder="0" onkeypress="return hanyaAngka(this)" maxlength="8" autocomplete="off">
+                            <input type="text" name="transportasi" class="form-control @error('transportasi') is-invalid @enderror" id="transportasi" placeholder="0" onkeypress="return hanyaAngka(this)" maxlength="8" autocomplete="off">
                         </div>
                         @error('transportasi')
                             <span class="invalid-feedback" role="alert">

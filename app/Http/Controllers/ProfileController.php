@@ -25,7 +25,6 @@ class ProfileController extends Controller
 
     public function uploadPhoto(Request $request)
     {
-        // dd($request->all());
         $staff = Staff::findOrFail(Auth::user()->staff->id);
         if ($request->hasFile('picture') && $request->file('picture')->isValid()) {
             $picture = $request->picture;

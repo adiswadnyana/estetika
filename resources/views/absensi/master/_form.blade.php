@@ -27,7 +27,7 @@
             <div class="col-12 col-md-5 col-lg-5">
                 <select name="periode" class="form-control select2 @error('periode') is-invalid @enderror" id="" required>
                     <option value=""></option>
-                    @for ($index=0; $index<=12; $index++)
+                    @for ($index=0; $index<=11; $index++)
                         <option value="{{ $month[$index] }}" {{ $month[$index] == old('periode', $month[date('n')] ?? '') ? 'selected' : '' }}>{{$month[$index] .', '. date('Y') }}</option>
                     @endfor
                 </select>
@@ -59,7 +59,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text bg-white"><i class="fas fa-calendar"></i></span>
                     </div>
-                    <input type="text" class="form-control pull-right datepicker{{ $errors->has('tanggal') ? ' is-invalid' : '' }}" name="tanggal" placeholder="31/04/2019" autocomplete="off" required onkeypress="return false" />
+                    <input type="text" class="form-control pull-right datepicker{{ $errors->has('tanggal') ? ' is-invalid' : '' }}" name="tanggal" placeholder="31/04/2021" autocomplete="off" required onkeypress="return false" />
                 </div>
                 @if ($errors->has('tanggal'))
                     <span class="invalid-feedback" role="alert">

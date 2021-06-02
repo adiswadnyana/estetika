@@ -13,11 +13,11 @@
                         <div class="card">
                             <div class="card-header bg-light">
                                 <div class="text-center">
-                                    <h3 class="card-title">{{ "Input Salary ". $request->status }}</h3>
+                                    <h3 class="card-title ml-3">{{ "Input Salary ". $request->status }}</h3>
                                 </div>
                                 <div class="back-top">
-                                <a href="{{ route('salary.index') }}" class="btn text-muted">
-                                    <i class="fa fa-arrow-left fa-fw"></i></span>
+                                <a href="{{ route('salary.index') }}" title="Kembali" data-toggle="tooltip" data-placement="right" class="btn text-muted">
+                                    <i class="fas fa-chevron-circle-left"></i></span>
                                 </a>
                             </div>
                             </div> 
@@ -83,11 +83,11 @@
                 $('#form-lembur input').attr('disabled', true);
                 $('#form-lembur input').removeAttr('required', "");
                 
-                let jam_lembur = $("#jam_lembur").val(0);
-                let gaji_lembur = $('#gaji_lembur').val(0);
-                let salary    = $('#total_salary_hidden').val();
-                let pot_bpjs    = $('#pot_bpjs').val();
-                let transportasi = $('#transportasi').val();
+                let jam_lembur = $("#jam_lembur").val(0)||0;
+                let gaji_lembur = $('#gaji_lembur').val(0)||0;
+                let salary    = $('#total_salary_hidden').val()||0;
+                let pot_bpjs    = $('#pot_bpjs').val()||0;
+                let transportasi = $('#transportasi').val()||0;
                 let total = parseInt(pot_bpjs) + parseInt(transportasi) + parseInt(salary);
                 $('#grand_total_salary').html(to_rupiah(total));
                 $('#grand_total_salary_hidden').val(total);
@@ -111,14 +111,14 @@
                     @endif
                     console.log(html);
                     $('input[name=total_kehadiran]').val(count);
-                    $('#salary_preview').html(to_rupiah(position.salary));
+                    $('#salary_preview').html(to_rupiah(position.salary||0));
                     $('#total_kehadiran').html(count);
 
-                    let total_salary = parseInt(count) * parseInt(position.salary);
+                    let total_salary = parseInt(count||0) * parseInt(position.salary||0);
                     $('#total_salary').html(to_rupiah(total_salary));
                     $('#total_salary_hidden').val(total_salary)
 
-                    $('#total_salary_hidden_preview').html(to_rupiah(position.salary));
+                    $('#total_salary_hidden_preview').html(to_rupiah(position.salary||0));
                     if($('#grand_total_salary_hidden').val() == 0)
                     {
                         $('button[name=submit]').removeAttr('disabled');
@@ -142,27 +142,27 @@
         });
        
         $(document).on('keyup', '#pot_bpjs', function(){
-            let salary    = $('#total_salary_hidden').val();
-            let pot_bpjs    = $('#pot_bpjs').val();
-            let total = parseInt(pot_bpjs) + parseInt(salary);
+            let salary    = $('#total_salary_hidden').val()||0;
+            let pot_bpjs    = $('#pot_bpjs').val()||0;
+            let total = parseInt(salary) - parseInt(pot_bpjs);
             $('#grand_total_salary').html(to_rupiah(total));
             $('#pot_bpjs_preview').html(to_rupiah(pot_bpjs));
         });
 
         $(document).on('keyup', '#transportasi', function(){
             HitungTotal();
-            let transportasi = $('#transportasi').val();
+            let transportasi = parseInt($('#transportasi').val()||0);
             $('#transportasi_preview').html(to_rupiah(transportasi));
         });
 
         $(document).on('keyup', '#gaji_lembur', function(){
-            let jam_lembur = $("#jam_lembur").val();
-            let gaji_lembur = $(this).val();
+            let jam_lembur = $("#jam_lembur").val()||0;
+            let gaji_lembur = $(this).val()||0;
             let total_lembur = parseInt(jam_lembur) * parseInt(gaji_lembur);
             $('#gaji_lembur_preview').html(to_rupiah(total_lembur));
-            let salary    = $('#total_salary_hidden').val();
-            let pot_bpjs    = $('#pot_bpjs').val();
-            let transportasi = $('#transportasi').val();
+            let salary    = $('#total_salary_hidden').val()||0;
+            let pot_bpjs    = $('#pot_bpjs').val()||0;
+            let transportasi = $('#transportasi').val()||0;
             let total = parseInt(pot_bpjs) + parseInt(transportasi) + parseInt(salary) + parseInt(total_lembur);
             $('#grand_total_salary').html(to_rupiah(total));
             $('#grand_total_salary_hidden').val(total);
@@ -170,12 +170,12 @@
 
         function  HitungTotalLembur()
         {
-            let jam_lembur = $("#jam_lembur").val();
-            let gaji_lembur = $('#gaji_lembur').val();
+            let jam_lembur = $("#jam_lembur").val()||0;
+            let gaji_lembur = $('#gaji_lembur').val()||0;
             let total_lembur = parseInt(jam_lembur) * parseInt(gaji_lembur);
-            let salary    = $('#total_salary_hidden').val();
-            let pot_bpjs    = $('#pot_bpjs').val();
-            let transportasi = $('#transportasi').val();
+            let salary    = $('#total_salary_hidden').val()||0;
+            let pot_bpjs    = $('#pot_bpjs').val()||0;
+            let transportasi = $('#transportasi').val()||0;
             let total = parseInt(pot_bpjs) + parseInt(transportasi) + parseInt(salary) + parseInt(total_lembur);
             $('#grand_total_salary').html(to_rupiah(total));
             $('#grand_total_salary_hidden').val(total);
@@ -183,9 +183,9 @@
 
         function HitungTotal()
         {
-            let salary    = $('#total_salary_hidden').val();
-            let pot_bpjs    = $('#pot_bpjs').val();
-            let transportasi = $('#transportasi').val();
+            let salary    = $('#total_salary_hidden').val() || 0;
+            let pot_bpjs    = $('#pot_bpjs').val() || 0;
+            let transportasi = $('#transportasi').val() || 0;
             let total = parseInt(pot_bpjs) + parseInt(transportasi) + parseInt(salary);
             $('#grand_total_salary').html(to_rupiah(total));
             $('#grand_total_salary_hidden').val(total);

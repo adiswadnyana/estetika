@@ -76,7 +76,8 @@ Route::middleware('auth')->group(function(){
 
         Route::get('salary', 'SalaryController@index')->name('salary.index');
         Route::get('salary/detail/id={id}', 'SalaryController@show')->name('salary.show');
-        Route::get('overtime', 'OvertimeController@index')->name('overtime.index');
+        Route::get('salary/detail', 'SalaryController@detail')->name('salary.detail');
+        // Route::get('overtime', 'OvertimeController@index')->name('overtime.index');
 
         Route::middleware('role:admin|accounting')->group(function(){
             Route::get('salary/create', 'SalaryController@create')->name('salary.create');
@@ -89,11 +90,11 @@ Route::middleware('auth')->group(function(){
             Route::get('salary/{id}', 'SalaryController@destroy')->name('salary.destroy');
             Route::get('salary/export/excel/id={id}/filter={filter}', 'SalaryController@excel')->name('salary.export.excel');
         
-            Route::get('overtime/create', 'OvertimeController@create')->name('overtime.create');
-            Route::post('overtime', 'OvertimeController@store')->name('overtime.store');
-            Route::get('overtime/{overtime}/edit', 'OvertimeController@edit')->name('overtime.edit');
-            Route::patch('overtime/{overtime}/update', 'OvertimeController@update')->name('overtime.update');
-            Route::get('overtime/{id}', 'OvertimeController@destroy')->name('overtime.destroy');
+            // Route::get('overtime/create', 'OvertimeController@create')->name('overtime.create');
+            // Route::post('overtime', 'OvertimeController@store')->name('overtime.store');
+            // Route::get('overtime/{overtime}/edit', 'OvertimeController@edit')->name('overtime.edit');
+            // Route::patch('overtime/{overtime}/update', 'OvertimeController@update')->name('overtime.update');
+            // Route::get('overtime/{id}', 'OvertimeController@destroy')->name('overtime.destroy');
         });
         Route::get('absensi', 'AbsensiController@index')->name('absensi.index');
         Route::get('absensi/create', 'AbsensiController@create')->name('absensi.create');
@@ -105,13 +106,13 @@ Route::middleware('auth')->group(function(){
         Route::get('absensi/detail/periode={periode}', 'AbsensiController@show')->name('absensi.detail');
         Route::get('absensi/export/excel/periode={periode}/filter={filter}', 'AbsensiController@excel')->name('absensi.export.excel');
        
-        Route::middleware('role:admin|accounting')->group(function(){
-            Route::get('schedule/create', 'ScheduleController@create')->name('schedule.create');
-            Route::post('schedule', 'ScheduleController@store')->name('schedule.store');
-            Route::get('schedule/{schedule}/edit', 'ScheduleController@edit')->name('schedule.edit');
-            Route::patch('schedule/{schedule}/update', 'ScheduleController@update')->name('schedule.update');
-            Route::get('schedule/{id}', 'ScheduleController@destroy')->name('schedule.destroy');
-        });
+        // Route::middleware('role:admin|accounting')->group(function(){
+        //     Route::get('schedule/create', 'ScheduleController@create')->name('schedule.create');
+        //     Route::post('schedule', 'ScheduleController@store')->name('schedule.store');
+        //     Route::get('schedule/{schedule}/edit', 'ScheduleController@edit')->name('schedule.edit');
+        //     Route::patch('schedule/{schedule}/update', 'ScheduleController@update')->name('schedule.update');
+        //     Route::get('schedule/{id}', 'ScheduleController@destroy')->name('schedule.destroy');
+        // });
     });
     Route::middleware('role:admin|supervisor|accounting')->group(function(){
         Route::get('absensi', 'AbsensiController@index')->name('absensi.index');
@@ -125,15 +126,15 @@ Route::middleware('auth')->group(function(){
         Route::get('absensi/export/excel/periode={periode}/filter={filter}', 'AbsensiController@excel')->name('absensi.export.excel');
     });
 
-    Route::get('schedule', 'ScheduleController@index')->name('schedule.index');
-    // cuti staff
-    Route::get('cuti', 'CutiController@index')->name('cuti.index');
-    Route::get('cuti/create', 'CutiController@create')->name('cuti.create');
-    Route::post('cuti', 'CutiController@store')->name('cuti.store');
-    Route::get('cuti/{cuti}/edit', 'CutiController@edit')->name('cuti.edit');
-    Route::patch('cuti/{cuti}/update', 'CutiController@update')->name('cuti.update');
-    Route::middleware('role:admin')->group(function(){
-        Route::get('cuti/{id}', 'CutiController@destroy')->name('cuti.destroy');
-        Route::patch('/cuti/{id}/validated', 'CutiController@validasi')->name('cuti.validated');
-    });
+    // Route::get('schedule', 'ScheduleController@index')->name('schedule.index');
+    // // cuti staff
+    // Route::get('cuti', 'CutiController@index')->name('cuti.index');
+    // Route::get('cuti/create', 'CutiController@create')->name('cuti.create');
+    // Route::post('cuti', 'CutiController@store')->name('cuti.store');
+    // Route::get('cuti/{cuti}/edit', 'CutiController@edit')->name('cuti.edit');
+    // Route::patch('cuti/{cuti}/update', 'CutiController@update')->name('cuti.update');
+    // Route::middleware('role:admin')->group(function(){
+    //     Route::get('cuti/{id}', 'CutiController@destroy')->name('cuti.destroy');
+    //     Route::patch('/cuti/{id}/validated', 'CutiController@validasi')->name('cuti.validated');
+    // });
 });

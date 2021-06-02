@@ -8,6 +8,12 @@
             <div class="container-fluid">
                 <form>
                     <div class="form-inline">
+                        <!-- payroll  -->
+                        <a href="{{ route('salary.detail') }}" class="btn btn-success btn-sm mr-3">
+                            <i class="fas fa-file-invoice"> PAYROLL</i>
+                            </a>
+                        <!-- end payroll  -->
+                        
                         <div class="input-group app-shadow">
                             <div class="input-group-append">
                                 <div class="input-group-text bg-white border-0">
@@ -19,10 +25,13 @@
                         <a href="{{ route('salary.create') }}" class="btn btn-default app-shadow d-none d-md-inline-block ml-auto">
                             <i class="fas fa-dollar fa-fw"></i> Input Salary
                         </a>
+                        
+                        
                     </div>
                 </form>
             </div>
         </div>
+        
     
         <div class="content pb-5">
               <div class="container-fluid">

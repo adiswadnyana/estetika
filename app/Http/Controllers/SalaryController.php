@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Salary;
 use App\Models\Absensi;
-// use App\Models\Schedule;
 use App\Models\Master\Staff;
 use App\Models\Master\Position;
 use DB;
@@ -64,7 +63,6 @@ class SalaryController extends Controller
     {
         $id = $request->staff_id;
         $position_id = Staff::where('id', $id)->first()->position_id;
-        // $shcedule_id = Schedule::where('staff_id', $id)->first()->id;
         $data['count_kehadiran'] = Absensi::where('staff_id', $id)
                                             ->where('attendance_id', 1)
                                             ->where('periode', strtolower($request->periode))->count();
@@ -78,6 +76,8 @@ class SalaryController extends Controller
         $request->merge([
             'status' => $salary['status'],
             'periode' => $salary['periode'],
+            'pot_bpjs'=> $request->pot_bpjs||0,
+            'transportasi'=> $request->transportasi||0,
             ]);
         $request->validate([
             'periode'=>'required',
@@ -185,6 +185,30 @@ class SalaryController extends Controller
             return response()->json($message);
         }
     }
+    // payroll 
+    public function detail(Request $request)
+    {
+        $f = $request->filter ?? null;
+        $data['title'] = "Payroll Salary";
+        $data['staff'] = Staff::select(DB::raw('name'));
+        $data['month'] = array("","Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+        $data['periode'] = Salary::groupBy( 'periode' )
+                        ->orderBy( 'periode' )
+                        ->select(DB::raw('count(*) as count, periode'))
+                        ->get();
+        // $data['salary'] = Salary::all();
+        if($f == '' || $f == 'all')
+        {
+            $data['salary'] = Salary::all();
+        }
+        else
+        {
+            $data['salary'] = Salary::where('periode', $f)->get();
+        }
+        $data['filter'] = $f;
+        return view('salary.detail', $data); 
+    }
+    // endpayroll 
 
     public function show($id, Request $request)
     {

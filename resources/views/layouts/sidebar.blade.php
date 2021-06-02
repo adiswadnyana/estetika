@@ -56,12 +56,6 @@
                 </li>
                 @endif
 
-                <!-- <li class="nav-item">
-                    <a href="{{ route('schedule.index') }}" class="nav-link {{ $page == 'schedule' ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-calendar"></i>
-                        <p>Schedule</p>
-                    </a>
-                </li> -->
                 @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('supervisor') || Auth::user()->hasRole('accounting') )
                 <li class="nav-item">
                     <a href="{{ route('absensi.index') }}" class="nav-link {{ $page == 'absensi' ? 'active' : '' }}">
@@ -79,23 +73,7 @@
                     </a>
                 </li>
                 @endif
-
-                <!-- {{-- <li class="nav-item">
-                    <a href="{{ route('overtime.index') }}" class="nav-link {{ $page == 'overtime' ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-clock"></i>
-                        <p>Overtime</p>
-                    </a>
-                </li> --}} -->
-
-                    
-               
-<!-- HIDDEN -->
-                <!-- <li class="nav-item">
-                    <a href="{{ route('cuti.index') }}" class="nav-link {{ $page == 'cuti' ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-calendar"></i>
-                        <p>Permohonan Cuti</p>
-                    </a>
-                </li> -->
+                
                 @if (Auth::user()->hasRole('admin') )
                     <li class="nav-header">Special Menu</li>
                     
