@@ -45,7 +45,6 @@
                             <table id="datatable" class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center" style="width: 100px;">#</th> 
                                         <th>Staff</th>
                                         <th>Position</th>
                                         <th>Status</th>
@@ -56,20 +55,6 @@
                                 <tbody>
                                     @foreach ($salary as $item)
                                         <tr id="hide{{ $item->id }}">
-                                            <td class="text-center">
-                                                <a href="#" class="text-secondary nav-link p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ route('salary.edit', $item->id) }}">
-                                                        <i class="far fa-edit mr-1"></i> Edit
-                                                    </a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void(0)" onClick="hapus({{$item->id}})">
-                                                        <i class="far fa-trash-alt mr-2"></i> Hapus
-                                                    </a>
-                                                </div>
-                                            </td>
                                             <td>{{ $item->staff->name ?? '' }}</td> 
                                             <td>{{ $item->staff->position->name ?? '' }}</td> 
                                             <td>

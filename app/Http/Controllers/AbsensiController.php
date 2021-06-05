@@ -42,7 +42,7 @@ class AbsensiController extends Controller
         else {
             $data['departement'] = Departement::all();
         }
-        $data['month'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+        $data['month'] = array("","Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
         return view('absensi.master.create', $data);
     }
 
@@ -131,10 +131,21 @@ class AbsensiController extends Controller
     public function show($id, Request $request)
     {
         // filter berdasarkan departement
-        $f = $request->filter ?? null;
         $detail_absen = new Absensi;
         $data['detail_absen'] = $detail_absen;
         $absen = $detail_absen->where('periode', $id)->first();
+        $departement_id = Auth::user()->staff->departement_id;
+        $role_id = Auth::user()->role_id;
+        
+        if($role_id==3){
+            $data['departement'] = Departement::where('id',$departement_id)->get(); 
+        }
+        else {
+            $data['departement'] = Departement::all();
+        }
+        $f = ($role_id == 3) ? $data['departement'][0]->name : $request->filter ?? null;
+        
+        
         if($absen)
         {
             $data['title'] = "Detail Absensi";
@@ -158,7 +169,7 @@ class AbsensiController extends Controller
                                                 ->where('b.name', $f)
                                                 ->get();
             }
-            $data['departement'] = Departement::all();
+            // $data['departement'] = Departement::all();
             $data['filter'] = $f;
             return view('absensi.detail.show', $data);
         }

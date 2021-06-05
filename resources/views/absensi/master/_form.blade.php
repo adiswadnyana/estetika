@@ -27,7 +27,7 @@
             <div class="col-12 col-md-5 col-lg-5">
                 <select name="periode" class="form-control select2 @error('periode') is-invalid @enderror" id="" required>
                     <option value=""></option>
-                    @for ($index=0; $index<=11; $index++)
+                    @for ($index=0; $index<=12; $index++)
                         <option value="{{ $month[$index] }}" {{ $month[$index] == old('periode', $month[date('n')] ?? '') ? 'selected' : '' }}>{{$month[$index] .', '. date('Y') }}</option>
                     @endfor
                 </select>
@@ -44,7 +44,9 @@
             <label class="col-md-4 col-xs-4 col-form-label justify-flex-end">Departement / Lokasi Proyek <span class="text-danger">*</span></label> 
             <div class="col-12 col-md-5 col-lg-5">
                 <select name="departement" class="form-control select2" id="" required>
-                    <option value=""></option>
+                    @if(count($departement)>1)
+                        <option value=""></option> 
+                    @endif
                     @foreach ($departement as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach

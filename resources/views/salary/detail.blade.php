@@ -79,6 +79,15 @@
                                 </table>
                             </div>
                             <div class="card-footer p-2">
+                            @if (!empty($filter))
+                                        <a href="{{ route('salary.export.excelpayroll', [$filter]) }}" class="btn btn-success btn-sm" id="export-excel">
+                                            <i class="fa fa-file-excel-o fa-fw"></i> Export Excel
+                                        </a>
+                                    @else
+                                        <a href="{{ route('salary.export.excelpayroll', ['all']) }}" class="btn btn-success btn-sm" id="export-excel">
+                                            <i class="fa fa-file-excel-o fa-fw"></i> Export Excel
+                                        </a>
+                                    @endif
                             </div>
                         </div>
                     </div>
@@ -98,6 +107,10 @@
 			placeholder : 'Pilih Periode..'
         });
         
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         $('#export-excel').on("click", function () {
             $(this).addClass('disabled');
             setTimeout(RemoveClass, 1000);
@@ -119,3 +132,4 @@
         
 	</script>
 @endsection
+        

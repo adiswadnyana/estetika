@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function(){
         Route::get('salary', 'SalaryController@index')->name('salary.index');
         Route::get('salary/detail/id={id}', 'SalaryController@show')->name('salary.show');
         Route::get('salary/detail', 'SalaryController@detail')->name('salary.detail');
+        Route::get('salary/export/excelpayroll/filter={filter}', 'SalaryController@excelpayroll')->name('salary.export.excelpayroll');
         // Route::get('overtime', 'OvertimeController@index')->name('overtime.index');
 
         Route::middleware('role:admin|accounting')->group(function(){
@@ -84,8 +85,8 @@ Route::middleware('auth')->group(function(){
             Route::post('salary/detail/create', 'SalaryController@store')->name('salary.store');
             Route::post('salary/detail/create/store', 'SalaryController@storeDetail')->name('salary.detail.store');
 
-            Route::get('salary/{salary}/edit', 'SalaryController@edit')->name('salary.edit');
-            Route::patch('salary/{salary}/update', 'SalaryController@update')->name('salary.update');
+            Route::get('salary/{id}/edit', 'SalaryController@edit')->name('salary.edit');
+            Route::patch('salary/{id}/update', 'SalaryController@update')->name('salary.detail.update');
             Route::get('staff/get_salary', 'SalaryController@getSalary');
             Route::get('salary/{id}', 'SalaryController@destroy')->name('salary.destroy');
             Route::get('salary/export/excel/id={id}/filter={filter}', 'SalaryController@excel')->name('salary.export.excel');

@@ -7,6 +7,7 @@ use App\Models\Salary;
 use App\Models\Absensi;
 use App\Models\Master\Staff;
 use App\Models\Master\Position;
+use Illuminate\Support\Facades\Blade;
 use DB;
 
 class SalaryController extends Controller
@@ -120,16 +121,23 @@ class SalaryController extends Controller
 
     }
 
-    public function edit(Salary $salary)
+    public function edit($salary)
     {
+        Blade::directive('currency', function ($expression) {
+            return "Rp. <?php echo number_format($expression, 0, ',', '.'); ?>";
+        });
         $data['title'] = "Edit Salary";
-        $data['staff'] = Staff::all();
-        $data['salary'] = $salary;
+        $data['salary'] = Salary::where('id', $salary) ->first();
         $data['month'] = array("","Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
-        $data['periode'] = Salary::groupBy( 'periode' )
-                ->orderBy( 'periode' )
-                ->select(DB::raw('count(*) as count, periode'))
-                ->get();
+        // $data['periode'] = Salary::groupBy( 'periode' )
+        //                             ->orderBy( 'periode' )
+        //                             ->select(DB::raw('count(*) as count, periode'))
+        //                             ->get();
+        $data['attendance_date']    = Absensi::select(DB::raw('count(*) as count'))
+                                                    ->where('periode', $data['salary']->periode)
+                                                    ->where('staff_id', $data['salary']->staff_id)
+                                                    ->get();
+       
         return view('salary.edit', $data);
         
     }
@@ -163,7 +171,7 @@ class SalaryController extends Controller
             'alert-type'=>'success',
             'message'=> 'Data salary updated successfully'
         ];  
-        return redirect()->route('salary.index')->with($message);
+        return redirect()->route('salary.detail.update')->with($message);
     }
 
     public function destroy(Request $request)
@@ -257,6 +265,30 @@ class SalaryController extends Controller
                 ->get();
         $data['filter'] = $f;
         return view('salary.excel', $data);
+    }
+
+    public function excelpayroll($filter)
+    {
+        // filter berdasarkan departement
+        $f = $filter ?? 'all';
+        $data['title'] = "Payroll Salary";
+        $data['staff'] = Staff::all();
+        $data['month'] = array("","Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+        $data['periode'] = Salary::groupBy( 'periode' )
+                        ->orderBy( 'periode' )
+                        ->select(DB::raw('count(*) as count, periode'))
+                        ->get();
+        // $data['salary'] = Salary::all();
+        if($f == '' || $f == 'all')
+        {
+            $data['salary'] = Salary::all();
+        }
+        else
+        {
+            $data['salary'] = Salary::where('periode', $f)->get();
+        }
+        $data['filter'] = $f;
+        return view('salary.excelpayroll', $data);
     }
 
 }

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('styles')
+<link rel="stylesheet" href="{{ asset ('css/sweetalert.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.6-rc.1/dist/css/select2.min.css">
 @endsection
 @section('content')
@@ -63,6 +64,7 @@
                                 <table class="table table-bordered mb-2 mr-2" style="font-size: 14px;">
                                     <thead>
                                         <tr class="bg-light">
+                                            <th class="text-center" style="width: 100px;">#</th>
                                             <th>Periode</th>
                                             <th>Salary</th>
                                             <th>Tgl. Salary</th>
@@ -79,6 +81,20 @@
                                     <tbody>
                                         @forelse ($salary as $item)
                                             <tr style="line-height: 1;">
+                                                <td class="text-center">
+                                                    <a href="#" class="text-secondary nav-link p-0" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="{{ route('salary.edit', $item->id) }}">
+                                                            <i class="far fa-edit mr-1"></i> Edit
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="javascript:void(0)" onClick="hapus({{$item->id}})">
+                                                            <i class="far fa-trash-alt mr-2"></i> Hapus
+                                                        </a>
+                                                    </div>
+                                                </td>
                                                 <td>{{ ucwords($item->periode) }}</td>
                                                 <td>Rp. {{ number_format($item->salary, 0, ',', '.') }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($item->tgl_salary)) }}</td>
@@ -144,4 +160,46 @@
             $('#export-excel').removeClass("disabled");
 		}
     </script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert-dev.js') }}"></script>
+    <script src="{{ asset('js/datatables.js') }}"></script>
+    <script>
+        function hapus(id){
+            swal({
+            title: 'Yakin.. ?',
+            text: "Data anda akan dihapus. Tekan tombol yes untuk melanjutkan.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    console.log(id);
+                    $.ajax({
+                        url:"{{URL::to('/salary/destroy')}}",
+                        data:"id=" + id ,
+                        success: function(data)
+                                                {
+                            swal("Deleted", data.message, "success");
+                            $("#count").html(data.count);
+                            $("#hide"+id).hide(300);
+                            location.reload();
+
+                        }
+                    });
+                    
+                }else{
+                    swal("Canceled", "Anda Membatalkan! :)","error");
+                }
+            });
+        }
+    </script>
 @endsection
+
+    
