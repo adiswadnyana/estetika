@@ -52,7 +52,7 @@
                                 <table class="table table-bordered mb-2 mr-2" style="font-size: 14px;">
                                     <tbody>
                                         <tr class="text-center bg-light" style="font-weight: bold;line-height: 1;">
-                                            <td colspan="4" style="vertical-align : middle;width: 10px;">KEAHLIAN</td>
+                                            <td colspan="4" style="vertical-align : middle;width: 10px;">IDENTITY</td>
                                             @if (count($attendance_date) > 0)
                                                 <td colspan="{{ count($attendance_date) }}" style="vertical-align : middle;white-space:normal;
                                                 width: auto;

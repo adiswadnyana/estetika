@@ -77,8 +77,8 @@ class SalaryController extends Controller
         $request->merge([
             'status' => $salary['status'],
             'periode' => $salary['periode'],
-            'pot_bpjs'=> $request->pot_bpjs||0,
-            'transportasi'=> $request->transportasi||0,
+            'pot_bpjs'=> $request->pot_bpjs,
+            'transportasi'=> $request->transportasi,
             ]);
         $request->validate([
             'periode'=>'required',
@@ -126,6 +126,7 @@ class SalaryController extends Controller
         Blade::directive('currency', function ($expression) {
             return "Rp. <?php echo number_format($expression, 0, ',', '.'); ?>";
         });
+        
         $data['title'] = "Edit Salary";
         $data['salary'] = Salary::where('id', $salary) ->first();
         $data['month'] = array("","Januari","Februari","Maret","April","Mei","Juni","Juli", 'Agustus', 'September', 'Oktober', 'November', 'Desember');

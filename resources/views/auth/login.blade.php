@@ -164,6 +164,13 @@
               </div>
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">{{ __('Login') }}</button>
             </form>
+            @if (session('message'))
+            <div class="col-md-12 mt-3">
+                <div class="alert alert-danger alert-dismissable mb-0"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ session('message') }}
+                </div>
+            </div>
+            @endif
           </div>
         </div>
       </div>
